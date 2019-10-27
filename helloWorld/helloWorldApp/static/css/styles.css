@@ -1,0 +1,17 @@
+#header{
+	position:relative;
+	min-height: 150px;
+	width: 100px;
+	float: right;
+	margin-right: 0;
+}
+
+.left {
+	float: left;
+	width: 50%;
+}
+
+.right {
+	float: right;
+	width: 50%;
+}
