@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<!-- THIS IS MY CODE -->
+
+
+<div class="top-bar">
+    <div class="top-bar-left">
+        <ul class="dropdown menu" data dropdown menu>
+            <li> <a href=''> <!-- <img src="static/images/reddit_logo.png" height = "40" width = "40">  -->
+            Reddit</a> </li>
+            <li> <a> Subreddits </a></li> 
+        </ul>
+    </div>
+
+     <div class="top-bar-right">
+        <ul class="dropdown menu" data dropdown menu>
+            {% if user.is_authenticated %}
+
+         <ul class="dropdown menu" data-dropdown-menu>
+            <li> <a>{{ request.user.username }}</a>
+                 <ul class="menu">
+                 <li> <a> My Profile </a></li>
+                 <li> <a href='/logout/'>Logout</a></li>
+                 </ul>
+            </li>
+        </ul>
+
+            {% endif %}
+
+              {% if user.is_anonymous %}
+              <li><a href='/login/' class='button'>Login</a></li>
+              <li><a href='/register/' class='button'>Register</a></li>
+             {% endif %}
+
+        </ul>
+    </div>
+</div>
+
+
+ <div style="float:right">
+    <a href="/suggestion/" class="button">Create Post</a>
+</div>
+
+
+<!-- THIS IS MY CODE -->
+
+<!-- 
+
+
+<div id="header"> -->
+<!-- 
+     {% if user.is_anonymous %}
+    <a href='/login/' class='button'>Login</a>
+    <a href='/register/' class='button'>Register</a>
+    {% endif %}
+ -->
+ <!--    {% if user.is_authenticated %}
+    <a href='/logout/' class='button'>Logout</a>
+    {% endif %}
+ -->
+
+
+
+<!-- </div> -->
+
+
+{% if user.is_authenticated %}
+<h3>Welcome, {{ request.user.username }}</h3>
+{% endif %}
+
+<div style="width:1000px; margin: 0 auto; vertical-align: middle;" onclick="location.href=''">
+<div id="app-4"> 
+    <span v-if="unseen">
+         <div v-for="sugg in suggestions" >
+
+
+
+            <div class="card-flex-article card">
+               <!--  <div class="card-image">
+                    <img src="https://images.pexels.com/photos/132987/pexels-photo-132987.jpeg?w=940&h=650&auto=compress&cs=tinysrgb">
+                    SUGGESTION IMAGES GO HERE!
+                    <span class="label alert card-tag">#Birdie</span>
+                </div> -->
+ 
+                <div class="card-section">
+
+                 <div class="article-details">
+                    {% verbatim %}
+                    <a><span class="website">SUBREDDIT GOES HERE</span> &#8226;</a>
+                    <span class="time">{{ sugg.published_on }}</span> &#8226;
+                    <a><span class="author">u/{{ sugg.author }}</span></a>
+                    {% endverbatim %}
+                </div>
+
+                    
+                     {% verbatim %}
+                    <h3 class="article-title">HEADER GOES HERE</h3>
+            
+              <!--   <p> posted by <a> u/{{ sugg.author }}</a> {{ sugg.published_on }} </p> -->
+                   <p class="article-summary">{{ sugg.suggestion }}</p>
+                   <img v-bind:src="sugg.image" v-bind:alt="sugg.image_description"></img>
+
+                   <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
+                    {% endverbatim %}
+                    <p> Likes: {{ sugg.upvote.count }} </p>
+                  
+
+
+
+                    <div v-for="comm in sugg.comments">
+                        <div class="article-details">
+                            {% verbatim %}
+                            <a><span class="author">u/{{ comm.author }}</span></a> &#8226;
+                            <span class="time"> {{ comm.published_on }}</span> 
+                        </div>
+                    <h3 class="lead">{{ comm.comment }}</h3>
+                   
+                    <span v-if="comm.delete"><a v-bind:href="'/comment/'+ comm.id+'/1/'" class="alert button">delete</a></span>
+                    {% endverbatim %}
+                </div>
+
+             <!--    <div class="card-divider align-justify">
+                <div class="notability">
+                 <span class="publications">Publication Number</span> &#8226;
+                <span class="likes"># Likes</span>
+                </div>
+                <div class="card-actions">
+                 <i class="fa fa-heart-o" aria-hidden="true"></i>
+                 <i class="fa fa-plus" aria-hidden="true"></i>
+                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </div>
+                </div> -->
+                </div>
+                </div>
+        
+               
+            </div>
+    </span> 
+</div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
+{% endblock %}
+
+<!--
+{% include "base.html" %}
+{% load mathfilters %}
+{% load static %}
+
+
+
+
+<div id="header">
+
+	{% if user.is_anonymous %}
+	<a href='/login/' class='button'>Login</a>
+	<a href='/register/' class='button'>Register</a>
+	{% endif %}
+
+	{% if user.is_authenticated %}
+	<a href='/login/' class='button'>Login</a>
+	<a href='/logout/' class='button'>Logout</a>
+	{% endif %}
+
+<a href='/register/' class='button'>Register</a>
+ -->
+
+<!-- </div>
+
+<div class="top-bar-left">
+
+	<ul style = "text-align: center">
+
+		{% for o in some_list %}
+
+		{% if o|mod:value == 0 %}
+ 			<li class = "button">{{helloWorld}} {{ o }}  </li>
+		{% elif o|mod:value == 1%}
+			<li class = "button warning">{{helloWorld}} {{ o }}  </li>
+		{% elif o|mod:value == 2%}
+			<li class = "button alert">{{helloWorld}} {{ o }}  </li>
+		{% elif o|mod:value == 3%}
+			<li class = "button secondary">{{helloWorld}} {{ o }}  </li>
+		{% endif %}
+
+		{% endfor %}
+
+	</ul>
+
+</div>
+
+<div class="grid-container" style="background-color: #FFFFFF"> 
+ 		<div class="large-12 cell" style="background-color: #D3D3D3">
+ 			<div class="callout" style="background-color: #D3D3D3">
+				<div style="background-color: #D3D3D3">
+
+
+
+	<h3 class = "button success"> {{ variable }} </h3>
+	
+	-->
+
+	<!--
+			<h1 style = "text-align: center" > CINS465 Web Development</h1>
+
+
+					{% if user.is_authenticated %}
+					Creates and operates the {{ form }} which was created in views.pw
+					<form action="/" method="post">
+					
+					{% csrf_token %}
+					{{ form }}
+					<input type="submit" class="button" value="Submit">
+					</form>
+					{% endif %}
+
+					 vue.js template variable 
+
+					<div id="app">
+						{% verbatim %}
+						{{ message }}
+						{% endverbatim %}
+						
+					</div>
+
+
+					<div id="app-2">
+  						<span v-bind:title="message">
+  							<div class="button secondary">
+   						 		Hover over me to see log in date/time!
+   						 	</div>
+ 						 </span>
+					</div>
+	
+					{% if user.is_anonymous %}
+						<h3> Please login to view/create content </h3>
+					{% endif %}
+
+					<div id="app-4">
+  						<ol>
+    						<li v-for="sugg in suggestions">
+    							{% verbatim %}
+     					 		{{ sugg.suggestion }} - {{ sugg.author }} - {{ sugg.created_on }}
+     					 		{% endverbatim %}
+
+     					 	<ul>
+     					 		<li v-for="comm in sugg.comments">
+    							{% verbatim %}
+     					 			{{ comm.comment }} - {{ comm.author }} - {{ comm.created_on }}
+     					 		{% endverbatim %}
+   								
+   								</li>
+   								{% verbatim %}
+     					 			<a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a></li>
+     					 		{% endverbatim %}
+
+   							</ul>
+   							 </li>
+ 						 </ol>
+ 					</div>
+ 						-->
+ 				<!-- 		<span v-if="unseen">
+							<ol>
+								{% for sugg in suggestion_list %}
+									<li> {{ sugg.suggestion }}  </li>
+								{% endfor %}
+							</ol>
+						</span>
+					</div>
+
+ 	<script>
+	document.getElementById("demo").innerHTML = "CINS465 Hello World JS";
+	</script> -->
+
+
+	<!-- <img src="{% static "../static/Image/Chico_state.jpg" %}" alt="My image"> -->
+<!-- 		
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{%static "js/myvue.js" %}"></script>
+-->
