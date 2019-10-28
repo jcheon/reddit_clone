@@ -14,9 +14,9 @@ class SuggestionForm(forms.Form):
 
     def save(self, request, commit=True):
         new_sugg = models.Suggestion(
-            suggestion = form.cleaned_data["suggestion"],
-            image = form.cleaned_data["image"],
-            image_description = form.cleaned_data["image_description"],
+            suggestion = self.cleaned_data["suggestion"],
+            image = self.cleaned_data["image"],
+            image_description = self.cleaned_data["image_description"],
             author = request.user
             )
 
