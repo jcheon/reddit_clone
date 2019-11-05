@@ -163,6 +163,16 @@ class Comment(models.Model):
 
 
 
+class Subreddit(models.Model):
+    title = models.CharField(max_length=25)
+    topics = models.CharField(max_length=25)
+    description = models.TextField()
+    moderator = models.ForeignKey(User, on_delete=models.CASCADE)
+    members = models.IntegerField()
+    birthday = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(max_length=144, upload_to='subreddit/pic')
+    image_description = models.CharField(max_length=240)
+
 
 
 

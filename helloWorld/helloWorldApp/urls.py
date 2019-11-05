@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', views.logout_view),
     path('register/', views.register),
+    path('r/', views.subreddit),
 ]
 
 # This is the url and which view it will pull its user direction information from

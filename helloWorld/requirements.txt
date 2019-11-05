@@ -2,3 +2,4 @@ Django==2.2.5
 django-mathfilters==0.4.0
 pytz==2019.2
 sqlparse==0.3.0
+Pillow==lastest
