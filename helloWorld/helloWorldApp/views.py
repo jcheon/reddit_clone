@@ -5,8 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 # from django.contrib.auth.models import User
-
 from . import models
 from . import forms
 
@@ -161,11 +161,45 @@ def register(request):
     return render(request, "registration/register.html", context=context)
 
 
-# Subreddit viewsi
+# Subreddit views
+# @login_required(login_url='/login/')
 def subreddit(request):
-    return HttpResponse("hello, Testing subreddit")
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form_instance = forms.SubredditForm(request.POST)
+            if form_instance.is_valid():
+                new_subreddit = form_instance.save(request=request)
+                return redirect("/r/")
+        else:
+            return redirect("/r/")
+    else:
+        form_instance = forms.SubredditForm()
+
+    context = {
+        "title":"Subreddit Form",
+        "form":form_instance,
+    }
+    return render(request, "subreddit.html", context=context)
 
 
+
+# @login_required(login_url='/login/')
+# def suggestion_form_view(request):
+#     if request.method == "POST":
+#         if request.user.is_authenticated:
+#             form_instance = forms.SuggestionForm(request.POST, request.FILES)
+#             if form_instance.is_valid():
+#                 new_sugg = form_instance.save(request=request)
+#                 return redirect("/")
+#         else:
+#             return redirect("/")
+#     else:
+#         form_instance = forms.SuggestionForm()
+#     context = {
+#         "title":"Suggestion Form",
+#         "form":form_instance
+#     }
+#     return render(request, "suggestion.html", context=context)
 # from django.shortcuts import render, redirect
 # from django.http import HttpResponse, JsonResponse
 # from . import models

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-padding-x">
+  <!-- <div class="large-4 medium-4 small-12 cell"></div> -->
+  <div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
+    <h3 class="text-center">Subreddit</h3>
+      <form action="/r/" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <label>{{ form.SubredditForm }}</label>
+          <input type="submit" class="button expanded" value="Add new Subreddit" />
+      </form>
+  </div>
+</div>
+{%  endblock %}
+
+

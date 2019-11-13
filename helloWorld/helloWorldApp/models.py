@@ -10,7 +10,7 @@ class Suggestion(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     pub_date = models.DateTimeField(auto_now_add= True)
-    upvote = models.ManyToManyField(User, blank=True, related_name='sugg_upvote')
+    # upvote = models.ManyToManyField(User, blank=True, related_name='sugg_upvote')
     image = models.ImageField(max_length = 144, upload_to='uploads/%Y/%m/%d/') 
     image_description = models.CharField(max_length = 240)
     # downvote = models.IntegerField(default=0)
@@ -162,19 +162,19 @@ class Comment(models.Model):
                 return str(years) + " years ago"
 
 
-
 class Subreddit(models.Model):
     title = models.CharField(max_length=25)
     topics = models.CharField(max_length=25)
     description = models.TextField()
-    moderator = models.ForeignKey(User, on_delete=models.CASCADE)
-    members = models.IntegerField()
-    birthday = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(max_length=144, upload_to='subreddit/pic')
-    image_description = models.CharField(max_length=240)
+    moderator = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    members = models.IntegerField(null = True)
+    birthday = models.DateTimeField(auto_now_add=True, null=True)
+    image = models.ImageField(max_length=144, upload_to='subreddit/pic', null=True)
+    image_description = models.CharField(max_length=240, null=True)
 
 
-
+    def __str__(self):
+        return self.title + " " + self.topics + " " + self.description
 
 # from django.db import models
 # from django.contrib.auth.models import User				# Adding a user
