@@ -169,7 +169,7 @@ def subreddit(request):
             form_instance = forms.SubredditForm(request.POST)
             if form_instance.is_valid():
                 new_subreddit = form_instance.save(request=request)
-                return redirect("/r/")
+                return redirect("../")
         else:
             return redirect("/r/")
     else:
@@ -180,6 +180,7 @@ def subreddit(request):
         "form":form_instance,
     }
     return render(request, "subreddit.html", context=context)
+
 
 
 
