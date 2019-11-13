@@ -22,9 +22,6 @@ from django.conf import settings # new
 from django.conf.urls.static import static # new
 
 urlpatterns = [
-    
-  #  path('Images/', include('helloWorldApp.urls')),
-    #path('accounts/', include('django.contrib.auth.urls')),
     path('', include('helloWorldApp.urls')), # STEP 1
     path('admin/', admin.site.urls),
 ] + static(

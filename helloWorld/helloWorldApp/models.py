@@ -6,14 +6,17 @@ import math
 
 # Create your models here.
 class Suggestion(models.Model):
-    suggestion = models.CharField(max_length=240)
+    header = models.CharField(max_length=240)
+    suggestion = models.CharField(max_length=10000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     pub_date = models.DateTimeField(auto_now_add= True)
-    upvote = models.ManyToManyField(User, blank=True, related_name='sugg_upvote')
-    image = models.ImageField(max_length = 144, upload_to='uploads/%Y/%m/%d/') 
-    image_description = models.CharField(max_length = 240)
-    # downvote = models.IntegerField(default=0)
+    #upvote = models.IntegerField(default = 0)
+    image = models.ImageField(max_length = 144, upload_to='uploads/%Y/%m/%d/', blank=True, null=True) 
+    image_description = models.CharField(max_length = 240, blank=True)
+    video = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
+    video_description = models.CharField(max_length = 240, blank=True)
+    #downvote = models.IntegerField(default=0)
 
     def __str__(self):
         return self.author.username + " " + self.suggestion
@@ -83,6 +86,8 @@ class Suggestion(models.Model):
 
             else:
                 return str(years) + " years ago"
+
+
 
 
 class Comment(models.Model):
@@ -164,30 +169,13 @@ class Comment(models.Model):
 
 
 
+# class Vote:
+#     upvote = models.IntegerField(default=0)
+#     downvote = models.IntegerField(default=0)
+#     author = models.ForeignKey(User, on_delete=models.CASCADE)
+#     suggestion = models.ForeignKey(Suggestion, on_delete=models.CASCADE)
 
+#     def __str__(self):
+#         return self.author.username + " " + self.suggestion
 
-# from django.db import models
-# from django.contrib.auth.models import User				# Adding a user
-
-# # Create your models here.
-# # A model acts as a variable which will store information in the DB
-
-# class Suggestion(models.Model):
-# 	suggestion = models.CharField(max_length=240)
-# 	author = models.ForeignKey(User, on_delete=models.CASCADE)			# Added author to suggestion so need to update database
-# 	created_on = models.DateTimeField(auto_now_add = True)
-
-# 	def __str__(self):
-# 		return self.author.username + " " + self.suggestion     # adds the author and the username to the suggestion
-
-
-# class Comment(models.Model):
-# 	comment = models.CharField(max_length=240)
-# 	author = models.ForeignKey(User, on_delete=models.CASCADE)			# Added author to suggestion so need to update database
-# 	suggestion = models.ForeignKey(Suggestion, on_delete=models.CASCADE)		
-# 	created_on = models.DateTimeField(auto_now_add = True)
-
-
-# 	def __str__(self):
-# 		return self.author.username + " " + self.comment     # adds the author and the username to the suggestion
-
+    

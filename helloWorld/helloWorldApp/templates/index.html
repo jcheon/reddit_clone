@@ -67,16 +67,14 @@
 <!-- </div> -->
 
 
-{% if user.is_authenticated %}
+<!-- {% if user.is_authenticated %}
 <h3>Welcome, {{ request.user.username }}</h3>
-{% endif %}
+{% endif %} -->
 
 <div style="width:1000px; margin: 0 auto; vertical-align: middle;" onclick="location.href=''">
 <div id="app-4"> 
     <span v-if="unseen">
          <div v-for="sugg in suggestions" >
-
-
 
             <div class="card-flex-article card">
                <!--  <div class="card-image">
@@ -97,14 +95,27 @@
 
                     
                      {% verbatim %}
-                    <h3 class="article-title">HEADER GOES HERE</h3>
+                    <h3 class="article-title">{{ sugg.header }}</h3>
             
               <!--   <p> posted by <a> u/{{ sugg.author }}</a> {{ sugg.published_on }} </p> -->
                    <p class="article-summary">{{ sugg.suggestion }}</p>
+               <!--        upvote arrow goes here
+                      downvote arrow goes here -->
                    <img v-bind:src="sugg.image" v-bind:alt="sugg.image_description"></img>
 
-                   <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
-                    {% endverbatim %}
+
+                    <video width="320" height="240" controls>
+                     <source v-bind:src="sugg.video" v-bind:alt="sugg.video_description" type="video/mp4">
+                    </video>
+
+                   {% endverbatim %}
+
+                   <div>
+                     {% verbatim %}
+                         <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
+                     {% endverbatim %}
+                    </div>
+                    
                     <p> Likes: {{ sugg.upvote.count }} </p>
                   
 
@@ -155,151 +166,3 @@
 <script src="{% static "js/myvue.js" %}"></script>
 {% endblock %}
 
-<!--
-{% include "base.html" %}
-{% load mathfilters %}
-{% load static %}
-
-
-
-
-<div id="header">
-
-	{% if user.is_anonymous %}
-	<a href='/login/' class='button'>Login</a>
-	<a href='/register/' class='button'>Register</a>
-	{% endif %}
-
-	{% if user.is_authenticated %}
-	<a href='/login/' class='button'>Login</a>
-	<a href='/logout/' class='button'>Logout</a>
-	{% endif %}
-
-<a href='/register/' class='button'>Register</a>
- -->
-
-<!-- </div>
-
-<div class="top-bar-left">
-
-	<ul style = "text-align: center">
-
-		{% for o in some_list %}
-
-		{% if o|mod:value == 0 %}
- 			<li class = "button">{{helloWorld}} {{ o }}  </li>
-		{% elif o|mod:value == 1%}
-			<li class = "button warning">{{helloWorld}} {{ o }}  </li>
-		{% elif o|mod:value == 2%}
-			<li class = "button alert">{{helloWorld}} {{ o }}  </li>
-		{% elif o|mod:value == 3%}
-			<li class = "button secondary">{{helloWorld}} {{ o }}  </li>
-		{% endif %}
-
-		{% endfor %}
-
-	</ul>
-
-</div>
-
-<div class="grid-container" style="background-color: #FFFFFF"> 
- 		<div class="large-12 cell" style="background-color: #D3D3D3">
- 			<div class="callout" style="background-color: #D3D3D3">
-				<div style="background-color: #D3D3D3">
-
-
-
-	<h3 class = "button success"> {{ variable }} </h3>
-	
-	-->
-
-	<!--
-			<h1 style = "text-align: center" > CINS465 Web Development</h1>
-
-
-					{% if user.is_authenticated %}
-					Creates and operates the {{ form }} which was created in views.pw
-					<form action="/" method="post">
-					
-					{% csrf_token %}
-					{{ form }}
-					<input type="submit" class="button" value="Submit">
-					</form>
-					{% endif %}
-
-					 vue.js template variable 
-
-					<div id="app">
-						{% verbatim %}
-						{{ message }}
-						{% endverbatim %}
-						
-					</div>
-
-
-					<div id="app-2">
-  						<span v-bind:title="message">
-  							<div class="button secondary">
-   						 		Hover over me to see log in date/time!
-   						 	</div>
- 						 </span>
-					</div>
-	
-					{% if user.is_anonymous %}
-						<h3> Please login to view/create content </h3>
-					{% endif %}
-
-					<div id="app-4">
-  						<ol>
-    						<li v-for="sugg in suggestions">
-    							{% verbatim %}
-     					 		{{ sugg.suggestion }} - {{ sugg.author }} - {{ sugg.created_on }}
-     					 		{% endverbatim %}
-
-     					 	<ul>
-     					 		<li v-for="comm in sugg.comments">
-    							{% verbatim %}
-     					 			{{ comm.comment }} - {{ comm.author }} - {{ comm.created_on }}
-     					 		{% endverbatim %}
-   								
-   								</li>
-   								{% verbatim %}
-     					 			<a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a></li>
-     					 		{% endverbatim %}
-
-   							</ul>
-   							 </li>
- 						 </ol>
- 					</div>
- 						-->
- 				<!-- 		<span v-if="unseen">
-							<ol>
-								{% for sugg in suggestion_list %}
-									<li> {{ sugg.suggestion }}  </li>
-								{% endfor %}
-							</ol>
-						</span>
-					</div>
-
- 	<script>
-	document.getElementById("demo").innerHTML = "CINS465 Hello World JS";
-	</script> -->
-
-
-	<!-- <img src="{% static "../static/Image/Chico_state.jpg" %}" alt="My image"> -->
-<!-- 		
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-
-
-
-
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="{%static "js/myvue.js" %}"></script>
--->
