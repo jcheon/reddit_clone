@@ -14,5 +14,6 @@ urlpatterns = [
     path('logout/', views.logout_view),
     path('register/', views.register),
   #  path('vote/<int:instance_id>/', views.vote),
+    path('r/', views.subreddit),
 ]
 
