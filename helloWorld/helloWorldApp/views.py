@@ -180,6 +180,25 @@ def register(request):
 #     #     return redirect("/")
 #     if request.method == "POST":
 #         if request.user.is_authenticated:
+
+#Subreddit views
+def subreddit(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form_instance = forms.SubredditForm(request.POST)
+            if form_instance.is_valid():
+                new_subreddit = form_instance.save(request=request)
+                return redirect("../")
+        else:
+            return redirect("/r/")
+    else:
+        form_instance = forms.SubredditForm()
+
+    context = {
+        "title":"Subreddit Form",
+        "form":form_instance,
+    }
+    return render(request, "subreddit.html", context=context)
             
 
 

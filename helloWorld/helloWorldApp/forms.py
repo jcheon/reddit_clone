@@ -62,3 +62,68 @@ class RegistrationForm(UserCreationForm):
             user.save()
         return user
 
+class SubredditForm(forms.Form):
+    TOPIC_CHOICES=[
+        ('activism', 'Activism'),
+        ('advice', 'Advice'),
+        ('animal', 'Animal'),
+        ('anime', 'Anime'),
+        ('art', 'Art'),
+        ('beauty', 'Beauty'),
+        ('careers', 'Careers'),
+        ('cars', 'Cars'),
+        ('celebrity', 'Celebrity'),
+        ('crypto', 'Crypto'),
+        ('entertainment', 'Entertainment'),
+        ('family & relationship', 'Family & Relationship'),
+        ('fitness', 'Fitness'),
+        ('food & drink', 'Food & Drink'),
+        ('funny & humor', 'Funny & Humor'),
+        ('Health & Wellbeing', 'Health & Wellbeing'),
+        ('help', 'Help'),
+        ('history', 'History'),
+        ('home & garden', 'Home & Garden'),
+        ('internet culture', 'Internet Culture'),
+        ('learning culture', 'Learning Culture'),
+        ('learning', 'Learning'),
+        ('mature themes', 'Mature Themes'),
+        ('men\'s fashion', 'Men\'s Fasion'),
+        ('movies', 'Movies'),
+        ('nature', 'Nature'),
+        ('news', 'News'),
+        ('outdoors', 'Outdoors'),
+        ('parenting', 'Parenting'),
+        ('pets', 'Pets'),
+        ('place', 'Place'),
+        ('politics', 'Politics'),
+        ('programming', 'Programming'),
+        ('reaction fuel', 'Reaction Fuel'),
+        ('reading & literature', 'Reading & Literature'),
+        ('religion & spirituality', 'Religion & Spirituality'),
+        ('science', 'Science'),
+        ('sports', 'Sports'),
+        ('style', 'Style'),
+        ('tabletop games', 'Tabletop Games'),
+        ('technology', 'Technology'),
+        ('television', 'Television'),
+        ('travel', 'Travel'),
+        ('video gaming', 'Video Gaming'),
+        ('women\'s fashion', 'Women\'s Fasion'),
+    ]
+
+
+    title = forms.CharField(label='Name', max_length=25)
+    topics = forms.CharField(label='What\'s the topic?', widget=forms.Select(choices=TOPIC_CHOICES))
+    description = forms.CharField(max_length=240)
+    # image = forms.ImageField(label = 'Subreddit logo')
+
+    def save(self, request, commit=True):
+        new_subreddit = models.Subreddit(
+            title = self.cleaned_data["title"],
+            topics = self.cleaned_data["topics"],
+            description = self.cleaned_data["description"],
+            # image = self.cleaned_data["image"],
+        )
+        if commit:
+            new_subreddit.save()
+        return new_subreddit
