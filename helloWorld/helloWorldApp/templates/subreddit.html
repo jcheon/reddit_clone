@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="grid-x grid-padding-x">
+  <!-- <div class="large-4 medium-4 small-12 cell"></div> -->
+  <div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
+    <h3 class="text-center">Subreddit</h3>
+    <form action="/r/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="button expanded" value="Create Post" />
+    </form>
+  </div>
+</div>
+
+{% endblock %}
