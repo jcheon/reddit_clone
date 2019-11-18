@@ -1,9 +1,6 @@
 
 # Reddit Clone
-![Django](https://static.djangoproject.com/img/logos/django-logo-negative.png) <!-- .element height="50%" width="50%" -->
-![Docker](https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png | width=40) 
-![Foundation](https://www.zvstcloudtech.com/adminpanel/uploadimage/42734.png | =24x48)
-![Vue](https://ih1.redbubble.net/image.393347411.1344/pp,550x550.jpg | width=40)
+
 ## Begin
 * Clone repo 
 ```
@@ -30,13 +27,16 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-
 ## regular files
-
 * **Dockerfile** - Initial dockerfile to help us setup our environment
 * **docker-compose.yml** - Initial starter docker-compose file
 * **requirements.txt** - Blank requirements.txt file for us to add python package requirements into
 
 ## hidden files
-
 * **.gitignore** - ignores python code & macOS generated files that don't need to be in the repo
+
+## Techs used
+* [Django](https://www.djangoproject.com/)
+* [Docker](https://www.docker.com)
+* [Foundation](https://foundation.zurb.com/)
+* [Vue](https://vuejs.org/)
