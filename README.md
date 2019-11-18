@@ -35,7 +35,8 @@ python manage.py migrate
 ## Hidden files
 * **.gitignore** - ignores python code & macOS generated files that don't need to be in the repo
 
-## Techs used (click for documentation)
+## Techs used 
+Click for documentation.
 * [Django](https://docs.djangoproject.com/en/2.2/)
 * [Docker](https://docs.docker.com/engine/docker-overview/)
 * [Foundation](https://foundation.zurb.com/sites/docs/)
