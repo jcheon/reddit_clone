@@ -1,5 +1,32 @@
-# starter_repo
-Repo to initialize class repositories from, setups initial CI/CD for gitlab as well
+
+# Reddit Clone
+![Django](https://static.djangoproject.com/img/logos/django-logo-negative.png =40x20) ![Docker](https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png =30x30) ![Foundation](https://www.zvstcloudtech.com/adminpanel/uploadimage/42734.png =30x30)  ![Vue](https://ih1.redbubble.net/image.393347411.1344/pp,550x550.jpg =30x30)
+## Begin
+* Clone repo 
+```
+git clone https://github.com/jcheon/reddit_clone
+```
+* Go into the repo
+```
+cd reddit_clone
+```
+* Run Docker
+```
+docker-compose up
+```
+
+## Help
+* Get into container's shell
+```
+docker-compose run web /bin/bash
+```
+
+* Migrate database
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
 
 ## regular files
 
@@ -10,5 +37,3 @@ Repo to initialize class repositories from, setups initial CI/CD for gitlab as w
 ## hidden files
 
 * **.gitignore** - ignores python code & macOS generated files that don't need to be in the repo
-* **.gitlab-ci.yml** - initial CI/CD pipeline file that will be used in CINS465 during class, should be modified to fit your project/code
-* **.coveragerc** - provides initial settings for the coverage.py package to test our CI testing coverage and omit specific files/folders/lines that are problematic. This will need to be moved and modified to be useful, and will be introduced in class. 
