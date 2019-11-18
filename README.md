@@ -1,6 +1,9 @@
 
 # Reddit Clone
-![Django](https://static.djangoproject.com/img/logos/django-logo-negative.png | width=40) ![Docker](https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png | width=40) ![Foundation](https://www.zvstcloudtech.com/adminpanel/uploadimage/42734.png | width=40)  ![Vue](https://ih1.redbubble.net/image.393347411.1344/pp,550x550.jpg | width=40)
+![Django](https://static.djangoproject.com/img/logos/django-logo-negative.png) 
+![Docker](https://www.docker.com/sites/default/files/d8/2019-07/vertical-logo-monochromatic.png | width=40) 
+![Foundation](https://www.zvstcloudtech.com/adminpanel/uploadimage/42734.png | width=40)
+![Vue](https://ih1.redbubble.net/image.393347411.1344/pp,550x550.jpg | width=40)
 ## Begin
 * Clone repo 
 ```
