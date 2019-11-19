@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -14,6 +14,8 @@ urlpatterns = [
     path('logout/', views.logout_view),
     path('register/', views.register),
   #  path('vote/<int:instance_id>/', views.vote),
-    path('r/', views.subreddit),
+  #   path('r/', views.subreddit),
+    path('<str:title>/', views.subreddit, name='subreddit'),
+    path('r/<str:subreddit_id>/', views.success)
 ]
 

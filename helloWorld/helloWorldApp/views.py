@@ -1,6 +1,6 @@
 # STEP 4, create view
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 
 from . import models
 from . import forms
+
 
 # Create your views here.
 def index(request, page=0):
@@ -182,24 +183,40 @@ def register(request):
 #         if request.user.is_authenticated:
 
 #Subreddit views
-def subreddit(request):
+def subreddit(request, title):
     if request.method == 'POST':
         if request.user.is_authenticated:
-            form_instance = forms.SubredditForm(request.POST)
-            if form_instance.is_valid():
-                new_subreddit = form_instance.save(request=request)
-                return redirect("../")
+            form = forms.SubredditForm(request.POST)
+            if form.is_valid():
+                new_subreddit = form.save(request=request)
+                return redirect('/r/' + form.data['title'])
         else:
             return redirect("/r/")
     else:
-        form_instance = forms.SubredditForm()
+        form = forms.SubredditForm()
 
     context = {
         "title":"Subreddit Form",
-        "form":form_instance,
+        "form":form,
     }
-    return render(request, "subreddit.html", context=context)
+    return render(request, "subreddit_create.html", context=context)
+
+def created_subreddits(request):
+    if request.method == "GET":
+        subreddit_query = models.Subreddit.objects.all()
+        subreddit_list = {"subreddit":[]}
+        for s in subreddit_query:
+            subreddit_list["subreddit"] += [{
+                "id":s.id,
+                "title":s.title,
+            }]
+        return JsonResponse(subreddit_list)
+    return HttpResponse("Unsupported HTTP method")
             
 
+def success(request, subreddit_id):
+    #add views here for each subreddit
+    return render(request, "subreddit.html")
+    # return HttpResponse("Looking at subreddit %s" % subreddit_id)
 
 
