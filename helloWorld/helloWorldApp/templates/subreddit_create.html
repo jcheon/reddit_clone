@@ -5,12 +5,12 @@
   <!-- <div class="large-4 medium-4 small-12 cell"></div> -->
   <div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
     <h3 class="text-center">Subreddit</h3>
-      <p> Need a subreddit template </p>
-      <!-- TODO: need to make profile page for each subreddits that are available
-      ex. https://www.reddit.com/r/nba/ --->
+    <form action="/r/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="button expanded" value="Create Subreddit" />
     </form>
   </div>
 </div>
-
 
 {% endblock %}
