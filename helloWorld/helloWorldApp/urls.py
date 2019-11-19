@@ -16,6 +16,7 @@ urlpatterns = [
   #  path('vote/<int:instance_id>/', views.vote),
   #   path('r/', views.subreddit),
     path('<str:title>/', views.subreddit, name='subreddit'),
-    path('r/<str:subreddit_id>/', views.success)
+    path('r/<str:subreddit_id>/', views.success),
+    path('getSubreddit', views.created_subreddits)
 ]
 
