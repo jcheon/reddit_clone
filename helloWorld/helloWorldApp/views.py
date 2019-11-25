@@ -183,7 +183,7 @@ def register(request):
 #         if request.user.is_authenticated:
 
 #Subreddit views
-def subreddit(request, title):
+def create_subreddit(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             form = forms.SubredditForm(request.POST)
@@ -191,7 +191,7 @@ def subreddit(request, title):
                 new_subreddit = form.save(request=request)
                 return redirect('/r/' + form.data['title'])
         else:
-            return redirect("/r/")
+            return redirect("/create_subreddit/")
     else:
         form = forms.SubredditForm()
 
@@ -215,8 +215,8 @@ def created_subreddits(request):
             
 
 def success(request, subreddit_id):
-    #add views here for each subreddit
+    #TODO: add views here for new subreddit created
     return render(request, "subreddit.html")
-    # return HttpResponse("Looking at subreddit %s" % subreddit_id)
+
 
 

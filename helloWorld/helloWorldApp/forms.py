@@ -111,7 +111,6 @@ class SubredditForm(forms.Form):
         ('women\'s fashion', 'Women\'s Fasion'),
     ]
 
-
     title = forms.CharField(label='Name', max_length=25)
     topics = forms.CharField(label='What\'s the topic?', widget=forms.Select(choices=TOPIC_CHOICES))
     description = forms.CharField(max_length=240)
