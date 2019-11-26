@@ -95,6 +95,8 @@ def suggestions_view(request):
                 "author":s_q.author.username,
                 "created_on":s_q.created_on,
                 "published_on":s_q.whenpublished(),
+                "upvote_count":s_q.upvoteCount(),
+                "downvote_count":s_q.downvoteCount(),
                 "comments":comment_list,
                 "image":url,
                 "image_description":s_q.image_description, # These are what I use to call from index
@@ -172,15 +174,20 @@ def register(request):
     }
     return render(request, "registration/register.html", context=context)
 
-# @login_required(login_url='/login/')
-# def vote(request, instance_id):
-#     # if delete == 1:
-#     #     instance = models.Vote.objects.get(id=instance_id)
-#     #     if request.user == instance.author:
-#     #         instance.delete()
-#     #     return redirect("/")
-#     if request.method == "POST":
-#         if request.user.is_authenticated:
+@login_required(login_url='/login/')
+def upvote(request, instance_id):
+    sugg = models.Suggestion.objects.get(id=instance_id)
+    sugg.upvote += 1
+    sugg.save()
+    return render(request, "index.html")
+
+@login_required(login_url='/login/')
+def downvote(request, instance_id):
+    sugg = models.Suggestion.objects.get(id=instance_id)
+    sugg.downvote -= 1
+    sugg.save()
+    return render(request, "index.html")
+   
 
 #Subreddit views
 def create_subreddit(request):
