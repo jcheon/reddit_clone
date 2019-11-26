@@ -104,7 +104,7 @@
                    <img v-bind:src="sugg.image" v-bind:alt="sugg.image_description"></img>
 
 
-                    <video width="320" height="240" controls>
+                    <video width="900" height="500" controls>
                      <source v-bind:src="sugg.video" v-bind:alt="sugg.video_description" type="video/mp4">
                     </video>
 
@@ -115,8 +115,18 @@
                          <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
                      {% endverbatim %}
                     </div>
+
+                    <div>
+                        <a v-bind:href="'/upvote/'+ sugg.id+'/'" class="button">Click to upvote!</a>
+                        <a v-bind:href="'/downvote/'+ sugg.id+'/'" class="button">Click to downvote!</a>
+
+                         {% verbatim %}
+                             <p> Likes: {{ sugg.upvote_count }} </p> 
+                             <p> Dislikes: {{ sugg.downvote_count }} </p> 
+                        {% endverbatim %}
+                    </div>
                     
-                    <p> Likes: {{ sugg.upvote.count }} </p>
+                   
                   
 
 

@@ -12,7 +12,8 @@ class Suggestion(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     pub_date = models.DateTimeField(auto_now_add=True)
-    # upvote = models.IntegerField(default = 0)
+    upvote = models.IntegerField(default = 0)
+    downvote = models.IntegerField(default = 0)
     image = models.ImageField(max_length=144, upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
     image_description = models.CharField(max_length=240, blank=True)
     video = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
@@ -22,6 +23,12 @@ class Suggestion(models.Model):
 
     def __str__(self):
         return self.author.username + " " + self.suggestion
+
+    def upvoteCount(self):
+        return self.upvote
+
+    def downvoteCount(self):
+        return self.downvote
 
     def whenpublished(self):
         now = timezone.now()

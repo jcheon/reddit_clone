@@ -12,6 +12,8 @@ urlpatterns = [
     path('comment/<int:instance_id>/<int:delete>/', views.comments_view),
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', views.logout_view),
+    path('upvote/<int:instance_id>/', views.upvote),
+    path('downvote/<int:instance_id>/', views.downvote),
     path('register/', views.register),
   #  path('vote/<int:instance_id>/', views.vote),
 
