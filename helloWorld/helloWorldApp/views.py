@@ -225,5 +225,58 @@ def success(request, subreddit_id):
     #TODO: add views here for new subreddit created
     return render(request, "subreddit.html")
 
+def post_page(request, instance_id):
+    sugg = models.Suggestion.objects.get(id=instance_id)
+    sugg_list = {"suggestions":[]}
+    comment_query = models.Comment.objects.filter(suggestion=sugg)
+    comment_list = []
+    for c_q in comment_query:
+        can_delete=False
+        if request.user == c_q.author:
+            can_delete=True
+        comment_list += [{
+            "comment":c_q.comment,
+            "author":c_q.author.username,
+            "created_on":c_q.created_on,
+            "published_on":c_q.whenpublished(),
+            "id":c_q.id,
+            "delete":can_delete
+        }]
+    url = ""
+    url1 = ""
+    if not str(sugg.image)=="":
+        url=sugg.image.url
+    if not str(sugg.video)=="":
+        url1=sugg.video.url
+    sugg_list["suggestions"] += [{
+        "id":sugg.id,
+        "header":sugg.header,
+        "suggestion":sugg.suggestion,
+        "author":sugg.author.username,
+        "created_on":sugg.created_on,
+        "published_on":sugg.whenpublished(),
+        "upvote_count":sugg.upvoteCount(),
+        "downvote_count":sugg.downvoteCount(),
+        "comments":comment_list,
+        "image":url,
+        "image_description":sugg.image_description, # These are what I use to call from index
+        "video":url1,
+        "video_description":sugg.video_description
+        }]
+    context = {
+        "sugg_list": sugg_list["suggestions"],
+        "comment_list":comment_list
+    }
+    return render(request, "post.html", context=context)
+
+
+
+
+
+
+   
+
+
+
 
 

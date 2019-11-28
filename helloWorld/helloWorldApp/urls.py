@@ -14,8 +14,8 @@ urlpatterns = [
     path('logout/', views.logout_view),
     path('upvote/<int:instance_id>/', views.upvote),
     path('downvote/<int:instance_id>/', views.downvote),
+    path('post/<int:instance_id>/', views.post_page),
     path('register/', views.register),
-  #  path('vote/<int:instance_id>/', views.vote),
 
     path('create_subreddit/', views.create_subreddit),
     path('r/<str:subreddit_id>/', views.success, name='subreddit_id'),

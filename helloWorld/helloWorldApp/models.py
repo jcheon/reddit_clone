@@ -175,11 +175,3 @@ class Subreddit(models.Model):
     def __str__(self):
         return self.title
 
-# class Vote:
-#     upvote = models.IntegerField(default=0)
-#     downvote = models.IntegerField(default=0)
-#     author = models.ForeignKey(User, on_delete=models.CASCADE)
-#     suggestion = models.ForeignKey(Suggestion, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.author.username + " " + self.suggestion

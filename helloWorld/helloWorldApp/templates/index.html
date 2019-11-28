@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+]{% extends "base.html" %}
 {% load static %}
 {% block content %}
 
@@ -127,11 +127,10 @@
                     </div>
                     
                    
-                  
+                  <a v-bind:href="'/post/'+ sugg.id+'/'">Comments</a>
 
 
-
-                    <div v-for="comm in sugg.comments">
+                  <!--   <div v-for="comm in sugg.comments">
                         <div class="article-details">
                             {% verbatim %}
                             <a><span class="author">u/{{ comm.author }}</span></a> &#8226;
@@ -141,7 +140,7 @@
                    
                     <span v-if="comm.delete"><a v-bind:href="'/comment/'+ comm.id+'/1/'" class="alert button">delete</a></span>
                     {% endverbatim %}
-                </div>
+                </div> -->
 
              <!--    <div class="card-divider align-justify">
                 <div class="notability">
