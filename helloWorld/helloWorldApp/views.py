@@ -57,9 +57,11 @@ def index(request, page=0):
         "variable":"Hello World",
         "title":"reddit: the front page of the internet",
         "form":form_instance,
-        "some_list":suggestion_list["suggestions"]
+        "sugg_list":suggestion_list["suggestions"]
     }
     return render(request, "index.html", context=context)
+
+
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -211,9 +213,9 @@ def create_subreddit(request):
 def created_subreddits(request):
     if request.method == "GET":
         subreddit_query = models.Subreddit.objects.all()
-        subreddit_list = {"subreddit":[]}
+        subreddit_list = {"subreddits":[]}
         for s in subreddit_query:
-            subreddit_list["subreddit"] += [{
+            subreddit_list["subreddits"] += [{
                 "id":s.id,
                 "title":s.title,
             }]
@@ -221,9 +223,11 @@ def created_subreddits(request):
     return HttpResponse("Unsupported HTTP method")
             
 
-def success(request, subreddit_id):
-    #TODO: add views here for new subreddit created
-    return render(request, "subreddit.html")
+def success(request, subreddit_title):
+    context = {
+        "title":subreddit_title,
+    }
+    return render(request, "subreddit.html", context=context)
 
 def post_page(request, instance_id):
     sugg = models.Suggestion.objects.get(id=instance_id)
@@ -270,6 +274,8 @@ def post_page(request, instance_id):
     return render(request, "post.html", context=context)
 
 
+def show_subreddits(request):
+    return render(request, "subreddits.html")
 
 
 

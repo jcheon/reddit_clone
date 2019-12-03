@@ -1,171 +1,68 @@
-]{% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 
 
-<!-- THIS IS MY CODE -->
 
-
-<div class="top-bar">
-    <div class="top-bar-left">
-        <ul class="dropdown menu" data dropdown menu>
-            <li> <a href=''> <!-- <img src="static/images/reddit_logo.png" height = "40" width = "40">  -->
-            Reddit</a> </li>
-            <li> <a href="/create_subreddit/"> Subreddits </a></li>
-        </ul>
-    </div>
-
-     <div class="top-bar-right">
-        <ul class="dropdown menu" data dropdown menu>
-            {% if user.is_authenticated %}
-
-         <ul class="dropdown menu" data-dropdown-menu>
-            <li> <a>{{ request.user.username }}</a>
-                 <ul class="menu">
-                 <li> <a> My Profile </a></li>
-                 <li> <a href='/logout/'>Logout</a></li>
-                 </ul>
-            </li>
-        </ul>
-
-            {% endif %}
-
-              {% if user.is_anonymous %}
-              <li><a href='/login/' class='button'>Login</a></li>
-              <li><a href='/register/' class='button'>Register</a></li>
-             {% endif %}
-
-        </ul>
-    </div>
-</div>
-
-
- <div style="float:right">
-    <a href="/suggestion/" class="button">Create Post</a>
-</div>
-
-
-<!-- THIS IS MY CODE -->
-
-<!-- 
-
-
-<div id="header"> -->
-<!-- 
-     {% if user.is_anonymous %}
-    <a href='/login/' class='button'>Login</a>
-    <a href='/register/' class='button'>Register</a>
-    {% endif %}
- -->
- <!--    {% if user.is_authenticated %}
-    <a href='/logout/' class='button'>Logout</a>
-    {% endif %}
- -->
+   
+<div style="width:750px; margin: 0 auto; vertical-align: middle;">
+    <div id="app-4"> 
+        <span v-if="unseen">
+            <div v-for="sugg in suggestions" >
+                <div class="card-flex-article card">
+                    <div class="card-section">
 
 
 
-<!-- </div> -->
+                    <div class="article-details">
+                      {% verbatim %}
+                        <a><span class="website">SUBREDDIT GOES HERE</span> &#8226;</a>
+                        <span class="time">{{ sugg.published_on }}</span> &#8226;
+                        <a><span class="author">u/{{ sugg.author }}</span></a>
+                      {% endverbatim %}
+                    </div>
 
 
-<!-- {% if user.is_authenticated %}
-<h3>Welcome, {{ request.user.username }}</h3>
-{% endif %} -->
 
-<div style="width:1000px; margin: 0 auto; vertical-align: middle;" onclick="location.href=''">
-<div id="app-4"> 
-    <span v-if="unseen">
-         <div v-for="sugg in suggestions" >
-
-            <div class="card-flex-article card">
-               <!--  <div class="card-image">
-                    <img src="https://images.pexels.com/photos/132987/pexels-photo-132987.jpeg?w=940&h=650&auto=compress&cs=tinysrgb">
-                    SUGGESTION IMAGES GO HERE!
-                    <span class="label alert card-tag">#Birdie</span>
-                </div> -->
- 
-                <div class="card-section">
-
-                 <div class="article-details">
                     {% verbatim %}
-                    <a><span class="website">SUBREDDIT GOES HERE</span> &#8226;</a>
-                    <span class="time">{{ sugg.published_on }}</span> &#8226;
-                    <a><span class="author">u/{{ sugg.author }}</span></a>
+
+                        <h3 class="article-title">{{ sugg.header }}</h3>
+                        <p class="article-summary">{{ sugg.suggestion }}</p>
+                        <img v-bind:src="sugg.image" v-bind:alt="sugg.image_description" width="750" height="100"></img>
+
+                   
+                        <video width="717" height="350" controls>
+                             <source v-bind:src="sugg.video" v-bind:alt="sugg.video_description" type="video/mp4">
+                        </video>
+
                     {% endverbatim %}
-                </div>
 
-                    
-                     {% verbatim %}
-                    <h3 class="article-title">{{ sugg.header }}</h3>
-            
-              <!--   <p> posted by <a> u/{{ sugg.author }}</a> {{ sugg.published_on }} </p> -->
-                   <p class="article-summary">{{ sugg.suggestion }}</p>
-               <!--        upvote arrow goes here
-                      downvote arrow goes here -->
-                   <img v-bind:src="sugg.image" v-bind:alt="sugg.image_description"></img>
-
-
-                    <video width="900" height="500" controls>
-                     <source v-bind:src="sugg.video" v-bind:alt="sugg.video_description" type="video/mp4">
-                    </video>
-
-                   {% endverbatim %}
-
-                   <div>
-                     {% verbatim %}
-                         <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
-                     {% endverbatim %}
+                    <div>
+                        {% verbatim %}
+                            <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
+                        {% endverbatim %}
                     </div>
 
                     <div>
                         <a v-bind:href="'/upvote/'+ sugg.id+'/'" class="button">Click to upvote!</a>
                         <a v-bind:href="'/downvote/'+ sugg.id+'/'" class="button">Click to downvote!</a>
 
-                         {% verbatim %}
-                             <p> Likes: {{ sugg.upvote_count }} </p> 
-                             <p> Dislikes: {{ sugg.downvote_count }} </p> 
+                        {% verbatim %}
+                            <p> Likes: {{ sugg.upvote_count }} </p> 
+                            <p> Dislikes: {{ sugg.downvote_count }} </p> 
                         {% endverbatim %}
                     </div>
                     
                    
-                  <a v-bind:href="'/post/'+ sugg.id+'/'">Comments</a>
+                        <a v-bind:href="'/post/'+ sugg.id+'/'">Comments</a>
 
-
-                  <!--   <div v-for="comm in sugg.comments">
-                        <div class="article-details">
-                            {% verbatim %}
-                            <a><span class="author">u/{{ comm.author }}</span></a> &#8226;
-                            <span class="time"> {{ comm.published_on }}</span> 
-                        </div>
-                    <h3 class="lead">{{ comm.comment }}</h3>
-                   
-                    <span v-if="comm.delete"><a v-bind:href="'/comment/'+ comm.id+'/1/'" class="alert button">delete</a></span>
-                    {% endverbatim %}
-                </div> -->
-
-             <!--    <div class="card-divider align-justify">
-                <div class="notability">
-                 <span class="publications">Publication Number</span> &#8226;
-                <span class="likes"># Likes</span>
-                </div>
-                <div class="card-actions">
-                 <i class="fa fa-heart-o" aria-hidden="true"></i>
-                 <i class="fa fa-plus" aria-hidden="true"></i>
-                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                </div>
-                </div> -->
-                </div>
-                </div>
-        
-               
+                    </div>
+                 </div>
             </div>
-    </span> 
+        </span> 
+    </div>
 </div>
-</div>
-
-
-
-
-
+   
 
 {% endblock %}
 {% block scripts %}
