@@ -16,6 +16,7 @@ class Suggestion(models.Model):
     downvote = models.IntegerField(default = 0)
     image = models.ImageField(max_length=144, upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
     image_description = models.CharField(max_length=240, blank=True)
+    title = models.CharField(max_length=240, blank=True)
     video = models.FileField(upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
     video_description = models.CharField(max_length=240, blank=True)
 

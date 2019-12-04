@@ -48,6 +48,7 @@ def index(request, page=0):
             "author":s_q.author.username,
             "created_on":s_q.created_on,
             "image":s_q.image,
+            "subreddit":s_q.title,
             "image_description":s_q.image_description,
             "video":s_q.video,
             "video_description":s_q.video_description,
@@ -99,6 +100,7 @@ def suggestions_view(request):
                 "published_on":s_q.whenpublished(),
                 "upvote_count":s_q.upvoteCount(),
                 "downvote_count":s_q.downvoteCount(),
+                "subreddit":s_q.title,
                 "comments":comment_list,
                 "image":url,
                 "image_description":s_q.image_description, # These are what I use to call from index
@@ -139,7 +141,7 @@ def comments_view(request, instance_id, delete=0):
 # This handles all of the redirection of user actions
 # If they click something on the form what happens and where they go
 @login_required(login_url='/login/')
-def suggestion_form_view(request):
+def suggestion_form_view(request, subreddit_title):
     if request.method == "POST":
         if request.user.is_authenticated:
             form_instance = forms.SuggestionForm(request.POST, request.FILES)
@@ -152,7 +154,8 @@ def suggestion_form_view(request):
         form_instance = forms.SuggestionForm()
     context = {
         "title":"Suggestion Form",
-        "form":form_instance
+        "form":form_instance,
+        "title":subreddit_title
     }
     return render(request, "suggestion.html", context=context)
 
