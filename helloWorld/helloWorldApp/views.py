@@ -227,10 +227,52 @@ def created_subreddits(request):
             
 
 def success(request, subreddit_title):
+    suggestion_query = models.Suggestion.objects.all()
+    suggestion_list = {"suggestions":[]}
+    for s_q in suggestion_query:
+        if(s_q.title == subreddit_title):
+            comment_query = models.Comment.objects.filter(suggestion=s_q)
+            comment_list = []
+            for c_q in comment_query:
+                can_delete=False
+                if request.user == c_q.author:
+                    can_delete=True
+                comment_list += [{
+                    "comment":c_q.comment,
+                    "author":c_q.author.username,
+                    "created_on":c_q.created_on,
+                    "id":c_q.id,
+                    "delete":can_delete
+                    }]
+            suggestion_list["suggestions"] += [{
+                "id":s_q.id,
+                "header":s_q.header,
+                "suggestion":s_q.suggestion,
+                "author":s_q.author.username,
+                "published_on":s_q.whenpublished(),
+                "upvote_count":s_q.upvoteCount(),
+                "downvote_count":s_q.downvoteCount(),
+                "image":s_q.image,
+                "subreddit":s_q.title,
+                "image_description":s_q.image_description,
+                "video":s_q.video,
+                "video_description":s_q.video_description,
+                "comments":comment_list
+                }]
     context = {
-        "title":subreddit_title,
+        "sugg_list":suggestion_list["suggestions"]
     }
     return render(request, "subreddit.html", context=context)
+
+
+
+
+
+
+
+
+
+
 
 def post_page(request, instance_id):
     sugg = models.Suggestion.objects.get(id=instance_id)
