@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+ <div style="width:750px; margin: 0 auto; vertical-align: middle;">
+    <div id="app-5"> 
+        <span v-if="unseen">
+            <div v-for="subreddit in subreddits" >
+                <div class="card-flex-article card">
+                    <div class="card-section">
+
+
+                        {% verbatim %}
+                            <a v-bind:href="'/r/'+ subreddit.title+'/'"> {{ subreddit.title }} </a>
+                        {% endverbatim %}
+
+                    
+                    </div>
+                 </div>
+            </div>
+        </span> 
+    </div>
+</div>
+                      	
+                    
+                    	
+
+
+
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div style="width:1000px; margin: 0 auto; vertical-align: middle;" onclick="location.href=''">
+	{% for sugg in sugg_list %}
+        <div class="card-flex-article card">
+			<div class="card-section">
+				<div class="article-details">
+                    <a><span class="website">{{ sugg.title }}</span> &#8226;</a>
+                    <span class="time">{{ sugg.published_on }}</span> &#8226;
+                    <a><span class="author">u/{{ sugg.author }}</span></a>
+                </div>
+
+                    
+   
+                    <h3 class="article-title">{{ sugg.header }}</h3>
+                    <p class="article-summary">{{ sugg.suggestion }}</p>
+
+                    <img src= {{sugg.image}} alt= {{sugg.image_description}} ></img>
+
+                    <video width="900" height="500" controls>
+                     <source src={{sugg.video}} alt={{sugg.video_description}} type="video/mp4">
+                    </video>
+
+
+                    
+                    <p>Likes: {{ sugg.upvote_count }} Dislikes: {{ sugg.downvote_count }}</p>
+                    
+
+
+                    <div>
+                        <a href="'/upvote/'+ {{sugg.id}} +'/'" class="button">Click to upvote!</a>
+                        <a href="'/downvote/'+ {{sugg.id}} +'/'" class="button">Click to downvote!</a>
+     				</div>
+     				{% for comm in comment_list %}
+     				<div class="article-details">
+               			<a><span class="author">{{ comm.author }}</span></a> &#8226;
+                        <span class="time"> {{ comm.published_on }}</span> 
+                    </div>
+                    <h3 class="lead">{{ comm.comment }}</h3>
+                   
+                    {% endfor %}
+                 	</div>
+
+        </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
+{% endblock %}

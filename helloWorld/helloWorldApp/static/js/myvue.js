@@ -31,7 +31,7 @@ var app4 = new Vue({
   //Adapted from https://stackoverflow.com/questions/36572540/vue-js-auto-reload-refresh-data-with-timer
   created: function() {
         this.fetchSuggestionList();
-        this.timer = setInterval(this.fetchSuggestionList, 100000);
+        this.timer = setInterval(this.fetchSuggestionList, 1000);
   },
   methods: {
     fetchSuggestionList: function() {
@@ -49,4 +49,33 @@ var app4 = new Vue({
     clearInterval(this.timer)
   }
 
+})
+
+var app5 = new Vue({
+  el: '#app-5',
+  data: {
+    subreddits: [],
+    seen:true,
+    unseen:false
+  },
+
+  created: function() {
+    this.fetchSubredditList();
+    this.timer = setInterval(this.fetchSubredditList, 1000);
+  },
+  methods: {
+    fetchSubredditList: function() {
+      axios
+        .get('/getSubreddit/')
+        .then(response => (this.subreddits = response.data.subreddits))
+          console.log(this.subreddits)
+        this.seen=false
+        this.unseen=true
+      },
+    cancelAutoUpdate: function() { clearInterval(this.timer) }
+  },
+  beforeDestroy() {
+    cancelAutoUpdate();
+    clearInterval(this.timer)
+  }
 })

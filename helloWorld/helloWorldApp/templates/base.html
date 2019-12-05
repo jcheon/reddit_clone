@@ -25,6 +25,40 @@
 
  <body style="background-color: #cdcdcd" style="text-align:center">
 
+    <div class="top-bar">
+    <div class="top-bar-left">
+        <ul class="dropdown menu" data dropdown menu>
+            <li> <a href='/'> Reddit</a> </li>
+            <li> <a href="/subreddits/"> Subreddits </a></li>
+            <li> <a href="/create_subreddit/"> Create a Subreddit </a></li> 
+        </ul>
+    </div>
+
+     <div class="top-bar-right">
+        <ul class="dropdown menu" data dropdown menu>
+            {% if user.is_authenticated %}
+
+         <ul class="dropdown menu" data-dropdown-menu>
+            <li> <a>{{ request.user.username }}</a>
+                 <ul class="menu">
+                 <li> <a> My Profile </a></li>
+                 <li> <a href='/logout/'>Logout</a></li>
+                 </ul>
+            </li>
+        </ul>
+
+            {% endif %}
+
+              {% if user.is_anonymous %}
+              <li><a href='/login/' class='button'>Login</a></li>
+              <li><a href='/register/' class='button'>Register</a></li>
+             {% endif %}
+
+        </ul>
+    </div>
+</div>
+
+
 
  	{% block content %}
  	{% endblock %}

@@ -3,6 +3,7 @@ from django.core.validators import validate_slug
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+
 from . import models
 
 
@@ -13,8 +14,8 @@ class SuggestionForm(forms.Form):
     image = forms.ImageField(label = 'Image File', required=False)
     image_description = forms.CharField(label = 'Image Description', max_length = 100, required=False)
     video = forms.FileField(label = 'Video', required=False)
-    video_description= forms.CharField(label='Video Description', max_length = 100, required=False)
-   
+    video_description = forms.CharField(label='Video Description', max_length = 100, required=False)
+    subreddit = forms.CharField(label='Subreddit', max_length = 100, required=False)
 
     def save(self, request, commit=True):
         new_sugg = models.Suggestion(
@@ -24,6 +25,7 @@ class SuggestionForm(forms.Form):
             image_description = self.cleaned_data["image_description"],
             video = self.cleaned_data["video"],
             video_description = self.cleaned_data["video_description"],
+            title = self.cleaned_data["subreddit"],
             author = request.user
             )
 

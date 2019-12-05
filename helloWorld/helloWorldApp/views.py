@@ -48,6 +48,7 @@ def index(request, page=0):
             "author":s_q.author.username,
             "created_on":s_q.created_on,
             "image":s_q.image,
+            "subreddit":s_q.title,
             "image_description":s_q.image_description,
             "video":s_q.video,
             "video_description":s_q.video_description,
@@ -57,9 +58,11 @@ def index(request, page=0):
         "variable":"Hello World",
         "title":"reddit: the front page of the internet",
         "form":form_instance,
-        "some_list":suggestion_list["suggestions"]
+        "sugg_list":suggestion_list["suggestions"]
     }
     return render(request, "index.html", context=context)
+
+
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -97,6 +100,7 @@ def suggestions_view(request):
                 "published_on":s_q.whenpublished(),
                 "upvote_count":s_q.upvoteCount(),
                 "downvote_count":s_q.downvoteCount(),
+                "subreddit":s_q.title,
                 "comments":comment_list,
                 "image":url,
                 "image_description":s_q.image_description, # These are what I use to call from index
@@ -137,7 +141,7 @@ def comments_view(request, instance_id, delete=0):
 # This handles all of the redirection of user actions
 # If they click something on the form what happens and where they go
 @login_required(login_url='/login/')
-def suggestion_form_view(request):
+def suggestion_form_view(request, subreddit_title):
     if request.method == "POST":
         if request.user.is_authenticated:
             form_instance = forms.SuggestionForm(request.POST, request.FILES)
@@ -150,7 +154,8 @@ def suggestion_form_view(request):
         form_instance = forms.SuggestionForm()
     context = {
         "title":"Suggestion Form",
-        "form":form_instance
+        "form":form_instance,
+        "title":subreddit_title
     }
     return render(request, "suggestion.html", context=context)
 
@@ -211,9 +216,9 @@ def create_subreddit(request):
 def created_subreddits(request):
     if request.method == "GET":
         subreddit_query = models.Subreddit.objects.all()
-        subreddit_list = {"subreddit":[]}
+        subreddit_list = {"subreddits":[]}
         for s in subreddit_query:
-            subreddit_list["subreddit"] += [{
+            subreddit_list["subreddits"] += [{
                 "id":s.id,
                 "title":s.title,
             }]
@@ -221,9 +226,108 @@ def created_subreddits(request):
     return HttpResponse("Unsupported HTTP method")
             
 
-def success(request, subreddit_id):
-    #TODO: add views here for new subreddit created
-    return render(request, "subreddit.html")
+def success(request, subreddit_title):
+    suggestion_query = models.Suggestion.objects.all()
+    suggestion_list = {"suggestions":[]}
+    for s_q in suggestion_query:
+        if(s_q.title == subreddit_title):
+            comment_query = models.Comment.objects.filter(suggestion=s_q)
+            comment_list = []
+            for c_q in comment_query:
+                can_delete=False
+                if request.user == c_q.author:
+                    can_delete=True
+                comment_list += [{
+                    "comment":c_q.comment,
+                    "author":c_q.author.username,
+                    "created_on":c_q.created_on,
+                    "id":c_q.id,
+                    "delete":can_delete
+                    }]
+            suggestion_list["suggestions"] += [{
+                "id":s_q.id,
+                "header":s_q.header,
+                "suggestion":s_q.suggestion,
+                "author":s_q.author.username,
+                "published_on":s_q.whenpublished(),
+                "upvote_count":s_q.upvoteCount(),
+                "downvote_count":s_q.downvoteCount(),
+                "image":s_q.image,
+                "subreddit":s_q.title,
+                "image_description":s_q.image_description,
+                "video":s_q.video,
+                "video_description":s_q.video_description,
+                "comments":comment_list
+                }]
+    context = {
+        "sugg_list":suggestion_list["suggestions"]
+    }
+    return render(request, "subreddit.html", context=context)
+
+
+
+
+
+
+
+
+
+
+
+def post_page(request, instance_id):
+    sugg = models.Suggestion.objects.get(id=instance_id)
+    sugg_list = {"suggestions":[]}
+    comment_query = models.Comment.objects.filter(suggestion=sugg)
+    comment_list = []
+    for c_q in comment_query:
+        can_delete=False
+        if request.user == c_q.author:
+            can_delete=True
+        comment_list += [{
+            "comment":c_q.comment,
+            "author":c_q.author.username,
+            "created_on":c_q.created_on,
+            "published_on":c_q.whenpublished(),
+            "id":c_q.id,
+            "delete":can_delete
+        }]
+    url = ""
+    url1 = ""
+    if not str(sugg.image)=="":
+        url=sugg.image.url
+    if not str(sugg.video)=="":
+        url1=sugg.video.url
+    sugg_list["suggestions"] += [{
+        "id":sugg.id,
+        "header":sugg.header,
+        "suggestion":sugg.suggestion,
+        "author":sugg.author.username,
+        "created_on":sugg.created_on,
+        "published_on":sugg.whenpublished(),
+        "upvote_count":sugg.upvoteCount(),
+        "downvote_count":sugg.downvoteCount(),
+        "comments":comment_list,
+        "image":url,
+        "image_description":sugg.image_description, # These are what I use to call from index
+        "video":url1,
+        "video_description":sugg.video_description
+        }]
+    context = {
+        "sugg_list": sugg_list["suggestions"],
+        "comment_list":comment_list
+    }
+    return render(request, "post.html", context=context)
+
+
+def show_subreddits(request):
+    return render(request, "subreddits.html")
+
+
+
+
+   
+
+
 
 
 
