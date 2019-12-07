@@ -5,6 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.utils.safestring import mark_safe
+import json
 # from django.contrib.auth.models import User
 
 from . import models
@@ -146,7 +148,7 @@ def suggestion_form_view(request, subreddit_title):
         if request.user.is_authenticated:
             form_instance = forms.SuggestionForm(request.POST, request.FILES)
             if form_instance.is_valid():
-                new_sugg = form_instance.save(request=request)
+                new_sugg = form_instance.save(request=request,url=subreddit_title)
                 return redirect("/")
         else:
             return redirect("/")
@@ -184,14 +186,14 @@ def upvote(request, instance_id):
     sugg = models.Suggestion.objects.get(id=instance_id)
     sugg.upvote += 1
     sugg.save()
-    return render(request, "index.html")
+    return HttpResponse(status=204)
 
 @login_required(login_url='/login/')
 def downvote(request, instance_id):
     sugg = models.Suggestion.objects.get(id=instance_id)
     sugg.downvote -= 1
     sugg.save()
-    return render(request, "index.html")
+    return HttpResponse(status=204)
    
 
 #Subreddit views
@@ -227,7 +229,7 @@ def created_subreddits(request):
             
 
 def success(request, subreddit_title):
-    suggestion_query = models.Suggestion.objects.all()
+    suggestion_query = models.Suggestion.objects.all().order_by('-created_on')
     suggestion_list = {"suggestions":[]}
     for s_q in suggestion_query:
         if(s_q.title == subreddit_title):
@@ -266,14 +268,6 @@ def success(request, subreddit_title):
 
 
 
-
-
-
-
-
-
-
-
 def post_page(request, instance_id):
     sugg = models.Suggestion.objects.get(id=instance_id)
     sugg_list = {"suggestions":[]}
@@ -307,6 +301,7 @@ def post_page(request, instance_id):
         "upvote_count":sugg.upvoteCount(),
         "downvote_count":sugg.downvoteCount(),
         "comments":comment_list,
+        "subreddit":sugg.title,
         "image":url,
         "image_description":sugg.image_description, # These are what I use to call from index
         "video":url1,
@@ -321,6 +316,42 @@ def post_page(request, instance_id):
 
 def show_subreddits(request):
     return render(request, "subreddits.html")
+
+
+# Added this
+def chat(request):
+    return render(request, 'chat/chatmain.html', {})
+
+
+def room(request, room_name):
+    return render(request, 'chat/room.html', {'room_name_json': mark_safe(json.dumps(room_name))})
+
+
+def chatroom_form_view(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = forms.ChatForm(request.POST)
+            if form.is_valid():
+                new_chatroom = form.save(request=request)
+                return redirect('/chat/' + new_chatroom.name + '/')
+        else:
+            return redirect("/createChat/")
+    else:
+        form = forms.ChatForm()
+    return render(request, "chat/createChat.html", {"form":form})
+
+
+def created_chatrooms(request):
+    if request.method == "GET":
+        chat_query = models.chatroom.objects.all()
+        chatroom_list = {"chatrooms":[]}
+        for room in chat_query:
+            chatroom_list["chatrooms"] += [{
+                "name":room.name
+            }]
+        return JsonResponse(chatroom_list)
+    return HttpResponse("Unsupported HTTP method")
+
 
 
 

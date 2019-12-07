@@ -2,12 +2,11 @@
 {% load static %}
 {% block content %}
 
-
- <div style="width:750px; margin: 0 auto; vertical-align: middle;">
+ <div style="width:750px; margin: 0 auto; vertical-align: middle; background: #ffffff ">
     <div id="app-5"> 
         <span v-if="unseen">
             <div v-for="subreddit in subreddits" >
-                <div class="card-flex-article card">
+                
                     <div class="card-section">
 
 
@@ -17,17 +16,13 @@
 
                     
                     </div>
-                 </div>
+             
             </div>
         </span> 
     </div>
 </div>
                       	
                     
-                    	
-
-
-
 
 {% endblock %}
 {% block scripts %}

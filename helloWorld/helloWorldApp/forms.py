@@ -15,9 +15,9 @@ class SuggestionForm(forms.Form):
     image_description = forms.CharField(label = 'Image Description', max_length = 100, required=False)
     video = forms.FileField(label = 'Video', required=False)
     video_description = forms.CharField(label='Video Description', max_length = 100, required=False)
-    subreddit = forms.CharField(label='Subreddit', max_length = 100, required=False)
+  
 
-    def save(self, request, commit=True):
+    def save(self, request, url="",commit=True):
         new_sugg = models.Suggestion(
             header = self.cleaned_data["header"],
             suggestion = self.cleaned_data["suggestion"],
@@ -25,7 +25,7 @@ class SuggestionForm(forms.Form):
             image_description = self.cleaned_data["image_description"],
             video = self.cleaned_data["video"],
             video_description = self.cleaned_data["video_description"],
-            title = self.cleaned_data["subreddit"],
+            title = url,
             author = request.user
             )
 
@@ -45,6 +45,22 @@ class CommentForm(forms.Form):
         if commit:
             new_comm.save()
         return new_comm
+
+
+
+class ChatForm(forms.Form):
+    chat = forms.CharField(label='Chatroom Name', max_length=25) 
+
+    def save(self, request, commit=True):
+        chat_instance = models.chatroom(
+            name = self.cleaned_data["chat"])
+
+        if commit:
+            chat_instance.save()
+        return chat_instance
+
+
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(

@@ -5,6 +5,7 @@ from . import models
 admin.site.register(models.Suggestion)
 admin.site.register(models.Comment)
 admin.site.register(models.Subreddit)
+admin.site.register(models.chatroom)
 
 
 # from django.contrib import admin

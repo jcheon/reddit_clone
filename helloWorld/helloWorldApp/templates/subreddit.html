@@ -11,55 +11,36 @@
   	{% for sugg in sugg_list %}
 		<div class="card-flex-article card">
                     <div class="card-section">
-
-
-
-                    <div class="article-details">
-
-                  
-                        <a><span class="website">{{ sugg.subreddit }}</span> &#8226;</a>
-                        <span class="time">{{ sugg.published_on }}</span> &#8226;
-                        <a><span class="author">u/{{ sugg.author }}</span></a>
-                      
-                    </div>
-
-
-
-              
+                        <div class="article-details">
+                            <a href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                            <span class="time">{{ sugg.published_on }}</span> &#8226;
+                            <a><span class="author">u/{{ sugg.author }}</span></a>
+                        </div>
 
                         <h3 class="article-title">{{ sugg.header }}</h3>
                         <p class="article-summary">{{ sugg.suggestion }}</p>
-                        <img v-bind:src="sugg.image" v-bind:alt="sugg.image_description" width="750" height="100"></img>
+                        <img src="{{sugg.image}}" alt="{{sugg.image_description}}" width="750" height="100"></img>
 
                    
                         <video width="717" height="350" controls>
-                             <source v-bind:src="sugg.video" v-bind:alt="sugg.video_description" type="video/mp4">
+                             <source src="{{sugg.video}}" v-bind:alt="{{sugg.video_description}}" type="video/mp4">
                         </video>
 
-          
+                    <div>
+                        <a href="/comment/{{sugg.id}}/" class="button">comment</a>
+                     </div>
 
                     <div>
-                     
-                            <a v-bind:href="'/comment/'+ sugg.id+'/'" class="button">comment</a>
-                      
-                    </div>
-
-                    <div>
-                        <a v-bind:href="'/upvote/'+ sugg.id+'/'" class="button">Click to upvote!</a>
-                        <a v-bind:href="'/downvote/'+ sugg.id+'/'" class="button">Click to downvote!</a>
-
-                       
-                            <p> Likes: {{ sugg.upvote_count }} </p> 
-                            <p> Dislikes: {{ sugg.downvote_count }} </p> 
-                       
+                        <a href="/upvote/{{sugg.id}}/" class="button">Click to upvote!</a>
+                        <a href="/downvote/{{sugg.id}}/" class="button">Click to downvote!</a>
+                        <p> Likes: {{ sugg.upvote_count }} </p> 
+                        <p> Dislikes: {{ sugg.downvote_count }} </p> 
                     </div>
                     
-                   
-                        <a v-bind:href="'/post/'+ sugg.id+'/'">Comments</a>
-
-                    </div>
-                 </div>
-        {% endfor %}
+                    <a href="/post/{{sugg.id}}/">Comments</a>
+                </div>
+        </div>
+    {% endfor %}
 </div>
    
 
