@@ -1,0 +1,26 @@
+<!-- chat/templates/chat/index.html -->
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div style="width:750px; margin: 0 auto; vertical-align: middle; background-color:#FFFFFF">
+    <div id="app-6"> 
+        <span v-if="unseen">
+            <div v-for="room in chatrooms" >
+                 <div class="card-section">
+                    {% verbatim %}
+                         <a v-bind:href="'/chat/'+ room.name+'/'"> {{ room.name }} </a>
+                    {% endverbatim %}   
+                </div>
+            </div>
+        </span> 
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
+{% endblock %}

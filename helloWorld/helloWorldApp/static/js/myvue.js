@@ -20,7 +20,6 @@ var app3 = new Vue({
   }
 })
 
-
 var app4 = new Vue({
   el: '#app-4',
   data: {
@@ -79,3 +78,35 @@ var app5 = new Vue({
     clearInterval(this.timer)
   }
 })
+
+
+
+var app6 = new Vue({
+  el: '#app-6',
+  data: {
+    chatrooms: [],
+    seen:true,
+    unseen:false
+  },
+
+  created: function() {
+    this.fetchChatroomList();
+    this.timer = setInterval(this.fetchChatroomList, 1000);
+  },
+  methods: {
+    fetchChatroomList: function() {
+      axios
+        .get('/getChatrooms/')
+        .then(response => (this.chatrooms = response.data.chatrooms))
+          console.log(this.chatrooms)
+        this.seen=false
+        this.unseen=true
+      },
+    cancelAutoUpdate: function() { clearInterval(this.timer) }
+  },
+  beforeDestroy() {
+    cancelAutoUpdate();
+    clearInterval(this.timer)
+  }
+})
+

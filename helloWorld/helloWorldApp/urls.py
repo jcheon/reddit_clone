@@ -19,6 +19,10 @@ urlpatterns = [
     path('subreddits/', views.show_subreddits),
     path('create_subreddit/', views.create_subreddit),
     path('r/<str:subreddit_title>/', views.success, name='subreddit_title'),
-    path('getSubreddit/', views.created_subreddits)
+    path('getSubreddit/', views.created_subreddits),
+    path('getChatrooms/', views.created_chatrooms),
+    path('createChat/', views.chatroom_form_view),
+    path('chat/', views.chat, name='chat'), # added this
+    path('chat/<str:room_name>/', views.room, name='room')
 ]
 
