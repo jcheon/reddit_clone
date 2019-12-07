@@ -25,40 +25,53 @@
 
  <body style="background-color: #cdcdcd" style="text-align:center">
 
-    <div class="top-bar">
+
+
+
+<div class="top-bar">
+
     <div class="top-bar-left">
         <ul class="dropdown menu" data dropdown menu>
             <li> <a href='/'> Reddit</a> </li>
-
-  
-              <ul class="dropdown menu" data-dropdown-menu>
                 <ul class="dropdown menu" data-dropdown-menu>
-                  <li> <a>Subreddit</a>
-                     <ul class="menu">
-                     <li> <a href="/subreddits/"> Subreddits </a></li>
-                     <li> <a href="/create_subreddit/"> Create Subreddit </a></li>
+                    
+                    <li> <a>Subreddits</a>
+                        <ul class="menu">
+                            <div id="app-5"> 
+                                <div v-for="subreddit in subreddits">
+                                    {% verbatim %}
+                                        <li><a v-bind:href="'/r/'+ subreddit.title+'/'"> r/{{ subreddit.title }} </a></li>
+                                    {% endverbatim %}
+                                </div>
+                            </div>
+        
+                        </ul>
+                    </li>
+
+                </ul>
+                        
+            <li> <a href="/create_subreddit/"> Create Subreddit </a></li>
+                   
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li> <a>Chatrooms</a>
+                            <ul class="menu">
+                                <div id="app-6"> 
+                                    <div v-for="room in chatrooms" >
+                                        {% verbatim %}
+                                            <li><a v-bind:href="'/chat/'+ room.name+'/'"> {{ room.name }} </a></li>
+                                        {% endverbatim %}
+                                    </div>
+                                </div>
+        
+                            </ul>
+                        </li>
                      </ul>
-                 </li>
-              </ul>
-           
 
-            <div class="top-bar-left">
-              <ul class="dropdown menu" data-dropdown-menu>
-                <ul class="dropdown menu" data-dropdown-menu>
-                  <li> <a>Chat</a>
-                     <ul class="menu">
-                     <li> <a href="/chat/"> Chatrooms </a></li>
-                     <li> <a href="/createChat/"> Create Chatroom </a></li>
-                     </ul>
-                 </li>
-              </ul>
-            </div>
-
-
+            <li> <a href="/createChat/"> Create Chatroom </a></li>
         </ul>
     </div>
 
-     <div class="top-bar-right">
+    <div class="top-bar-right">
         <ul class="dropdown menu" data dropdown menu>
             {% if user.is_authenticated %}
 
