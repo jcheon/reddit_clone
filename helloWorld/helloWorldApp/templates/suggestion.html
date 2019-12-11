@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+{% block content %}
 
 <!-- This is the HTML physical view of my form -->
 
-{% block content %}
 <div class="grid-x grid-padding-x">
   <!-- <div class="large-4 medium-4 small-12 cell"></div> -->
   <div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
@@ -14,4 +15,11 @@
     </form>
   </div>
 </div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
 {% endblock %}

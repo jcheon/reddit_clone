@@ -13,11 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <title>{{ title }}</title>
+    
     <link rel="icon" href="static/images/reddit_logo3.png" type="image/icon type">
+    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
+    <link rel="stylesheet" href="{% static "css/app.css" %}">
 
-    <link rel="stylesheet" href="{%static "css/styles.css" %}">
-    <link rel="stylesheet" href="{%static "css/foundation.css" %}">
-    <link rel="stylesheet" href="{%static "css/app.css" %}">
+
 	{% block css %}
 	{% endblock %}
  
@@ -26,9 +27,7 @@
  <body style="background-color: #cdcdcd" style="text-align:center">
 
 
-
-
-<div class="top-bar">
+    <div class="top-bar">
 
     <div class="top-bar-left">
         <ul class="dropdown menu" data dropdown menu>
@@ -95,7 +94,6 @@
         </ul>
     </div>
 </div>
-
 
 
  	{% block content %}

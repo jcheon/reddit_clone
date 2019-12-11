@@ -14,6 +14,7 @@ class Suggestion(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     upvote = models.IntegerField(default = 0)
     downvote = models.IntegerField(default = 0)
+    comment_count = models.IntegerField(default = 0)
     image = models.ImageField(max_length=144, upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
     image_description = models.CharField(max_length=240, blank=True)
     title = models.CharField(max_length=240, blank=True)

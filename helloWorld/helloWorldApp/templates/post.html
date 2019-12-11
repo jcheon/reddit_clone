@@ -2,24 +2,26 @@
 {% load static %}
 {% block content %}
 
-<div style="width:1000px; margin: 0 auto; vertical-align: middle;">
-	{% for sugg in sugg_list %}
-        <div class="card-flex-article card">
-			<div class="card-section">
-				<div class="article-details">
-                    <a href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
-                    <span class="time">{{ sugg.published_on }}</span> &#8226;
-                    <a><span class="author">u/{{ sugg.author }}</span></a>
-                </div>
+
+
+
+<div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
+    <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
+	   {% for sugg in sugg_list %}
+            <div class="card-info info">
+                <div class="card-section">
+                
+				    <div class="article-details">
+                        <a href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                        <span class="time">{{ sugg.published_on }}</span> &#8226;
+                        <a><span class="author">u/{{ sugg.author }}</span></a>
+                    </div>
 
                     <h3 class="article-title">{{ sugg.header }}</h3>
                     <p class="article-summary">{{ sugg.suggestion }}</p>
 
-                    <img src= {{sugg.image}} alt= {{sugg.image_description}} ></img>
-
-                    <video width="900" height="500" controls>
-                     <source src={{sugg.video}} alt={{sugg.video_description}} type="video/mp4">
-                    </video>
+                    <img src= {{sugg.image}} onerror="this.style.display='none'"/>
+                    <video width="900" height="500" controls src={{sugg.video}} onerror="this.style.display='none'" type="video/mp4"></video>
 
                     <p>Likes: {{ sugg.upvote_count }} Dislikes: {{ sugg.downvote_count }} </p>
                     
@@ -27,19 +29,45 @@
                         <a href="/upvote/{{sugg.id}}/"  class="button"> Click to upvote!</a>
                         <a href="/downvote/{{sugg.id}}/" class="button">Click to downvote!</a>
      				</div>
-     				{% for comm in comment_list %}
-     				<div class="article-details">
-               			<a><span class="author">{{ comm.author }}</span></a> &#8226;
-                        <span class="time"> {{ comm.published_on }}</span> 
-                    </div>
-                    <h3 class="lead">{{ comm.comment }}</h3>
-                   
-                    {% endfor %}
-                 	</div>
 
-        </div>
-    {% endfor %}
+                    <form action="/post/{{sugg_id}}/" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" class="button expanded" value="Add Comment" />
+                    </form>
+
+                    <!-- {% for comm in comment_list %}
+                    <div class="comment-section-author">
+  
+                        <div class="comment-section-author">
+                            <img src="https://placehold.it/50x50" alt="">
+                            <div class="comment-section-name">
+                                <h5><a href="">Janice Jones</a></h5>
+                                <p>March 12, 2017 at 1:28pm</p>
+                            </div>
+                            </div>
+                            <div class="comment-section-text">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum facilis tenetur a voluptatibus quia deserunt.</p>
+                            </div>
+                    </div>
+
+                     {% endfor %} -->
+
+     				{% for comm in comment_list %}
+     				   <div class="article-details">
+               			    <a><span class="author">{{ comm.author }}</span></a> &#8226;
+                            <span class="time"> {{ comm.published_on }}</span> 
+                        </div>
+                        <h3 class="lead">{{ comm.comment }}</h3>
+                    {% endfor %}
+
+                </div>
+            </div>  
+        {% endfor %}
+    </div>
 </div>
+
+
 
 
 {% endblock %}
