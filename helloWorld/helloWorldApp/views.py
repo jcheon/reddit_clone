@@ -379,11 +379,40 @@ def created_chatrooms(request):
         return JsonResponse(chatroom_list)
     return HttpResponse("Unsupported HTTP method")
 
+def profiles(request, user_name):
+    name = None
+    date = None
+    member_of = None
+    posts = None
 
+    name = request.user.get_username()
+    date = request.user.date_joined
 
+    user_post_query = models.Suggestion.objects.filter(author = request.user)
+    post_list = {"posts":[]}
 
+    for p in user_post_query: 
+        post_list["posts"] += [{
+            "id":p.id,
+            "header": p.header,
+            "suggestion": p.suggestion,
+            "created_on": p.created_on,
+            "pub_date": p.pub_date,
+            "upvote": p.upvote,
+            "downvote": p.downvote,
+            "image": p.image,
+            "img_description": p.image_description,
+            "title": p.title,
+            "video": p.video,
+            "video_description": p.video_description
+        }]
 
-   
+    context = {
+        "name": name,
+        "date": date,
+        "posts": post_list["posts"],
+    }
+    return render(request, "profiles.html", context=context)
 
 
 

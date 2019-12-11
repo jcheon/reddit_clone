@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x">
+  <div class="small-8 cell">
+    <div class="medium-6 columns" style = "text-align: center;">
+      {% for p in posts %}
+      <div class = "card-flex-atricle card">
+        <div style="float: left">
+          <i class="material-icons">keyboard_arrow_up</i>
+          {{ p.upvote }}
+          <i class="material-icons">keyboard_arrow_down</i>
+        </div>
+        <div>
+          <p>r/{{p.title}} * Posted by u/{{name}} * {{p.created_on}} ago</p>
+          <p>{{p.header}}</p>
+          <p>{{p.suggestion}}</p>
+        </div>
+      </div>
+
+      {% endfor %} 
+    </div> 
+  </div>
+
+  <div class="small-4 cell" style = "text-align: center; border-style: solid;">
+      <img src = "https://usatftw.files.wordpress.com/2019/04/screen-shot-2019-04-23-at-11.17.38-pm.jpg?w=779&h=467&crop=1&zoom=2"> <!-- testin imag-->
+    <p>u/{{ name }}</p>
+    <p>Cake Day: {{ date }}</p> 
+  </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
+{% endblock %}
+
