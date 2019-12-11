@@ -33,7 +33,7 @@ var app4 = new Vue({
         this.timer = setInterval(this.fetchSuggestionList, 1000);
   },
   methods: {
-    fetchSuggestionList: function() {
+    fetchSuggestionList: function(arg) {
         axios
           .get('/suggestions/')
           .then(response => (this.suggestions = response.data.suggestions))
@@ -65,7 +65,7 @@ var app5 = new Vue({
   methods: {
     fetchSubredditList: function() {
       axios
-        .get('/getSubreddit/')
+        .get('/getSubreddit')
         .then(response => (this.subreddits = response.data.subreddits))
           console.log(this.subreddits)
         this.seen=false
@@ -78,8 +78,6 @@ var app5 = new Vue({
     clearInterval(this.timer)
   }
 })
-
-
 
 var app6 = new Vue({
   el: '#app-6',
@@ -109,4 +107,8 @@ var app6 = new Vue({
     clearInterval(this.timer)
   }
 })
+
+// var subreddit = document.getElementById("curSub").innerHTML.split("/")[1].split("<")[0];
+
+
 

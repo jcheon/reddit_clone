@@ -7,11 +7,14 @@
     <a href="suggestion/" class="button">Create Post</a>
 </div>
 
-<div style="width:750px; margin: 0 auto; vertical-align: middle;">
-  	{% for sugg in sugg_list %}
-		<div class="card-flex-article card">
+<div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
+    <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
+  	     {% for sugg in sugg_list %}
+		      <div class="card-info info">
                     <div class="card-section">
+                        
                         <div class="article-details">
+                            <!-- <a onload = "getID()" id= "curSub" href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a> -->
                             <a href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
                             <span class="time">{{ sugg.published_on }}</span> &#8226;
                             <a><span class="author">u/{{ sugg.author }}</span></a>
@@ -19,30 +22,28 @@
 
                         <h3 class="article-title">{{ sugg.header }}</h3>
                         <p class="article-summary">{{ sugg.suggestion }}</p>
-                        <img src="{{sugg.image}}" alt="{{sugg.image_description}}" width="750" height="100"></img>
+                        <img src={{sugg.image}} onerror="this.style.display='none'" width="750" height="100"></img>
 
                    
-                        <video width="717" height="350" controls>
-                             <source src="{{sugg.video}}" v-bind:alt="{{sugg.video_description}}" type="video/mp4">
+                        <video width="717" height="350" controls src="{{sugg.video}}" onerror="this.style.display='none'" type="video/mp4">
                         </video>
 
-                    <div>
-                        <a href="/comment/{{sugg.id}}/" class="button">comment</a>
-                     </div>
-
-                    <div>
-                        <a href="/upvote/{{sugg.id}}/" class="button">Click to upvote!</a>
-                        <a href="/downvote/{{sugg.id}}/" class="button">Click to downvote!</a>
-                        <p> Likes: {{ sugg.upvote_count }} </p> 
-                        <p> Dislikes: {{ sugg.downvote_count }} </p> 
-                    </div>
+                        <div>
+                            <a href="/upvote/{{sugg.id}}/" class="button">Click to upvote!</a>
+                            <a href="/downvote/{{sugg.id}}/" class="button">Click to downvote!</a>
+                            <p> Likes: {{ sugg.upvote_count }} </p> 
+                            <p> Dislikes: {{ sugg.downvote_count }} </p> 
+                        </div>
                     
-                    <a href="/post/{{sugg.id}}/">Comments</a>
+                        <a href="/post/{{sugg.id}}/">Comments</a>
+
+
+
                 </div>
-        </div>
-    {% endfor %}
-</div>
-   
+            </div>
+        {% endfor %}
+    </div>
+ </div>  
 
 
 {% endblock %}

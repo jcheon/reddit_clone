@@ -34,7 +34,8 @@ class SuggestionForm(forms.Form):
         return new_sugg
 
 class CommentForm(forms.Form):
-    comment = forms.CharField(label='Comment', max_length=1000) #validators=[validate_slug]
+    comment = forms.CharField(label='Comment', 
+        widget = forms.Textarea(attrs={"rows":5, 'max_length':2000, 'placeholder': 'Type comment here...'}), max_length=2000)
 
     def save(self, request, sugg_id, commit=True):
         sugg_instance = models.Suggestion.objects.get(id=sugg_id)

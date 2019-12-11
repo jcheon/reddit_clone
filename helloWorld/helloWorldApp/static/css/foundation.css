@@ -12,15 +12,12 @@
     margin: 0 auto; } }
 
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
-
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%; }
 
 body {
-  margin: 0; 
-  background-color: lightblue; /* added this */
-  }
+  margin: 0; }
 
 h1 {
   font-size: 2em;
@@ -6363,3 +6360,5 @@ a.thumbnail {
 .long-delay {
   -webkit-animation-delay: 700ms !important;
           animation-delay: 700ms !important; }
+
+

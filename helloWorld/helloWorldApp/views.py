@@ -52,6 +52,7 @@ def index(request, page=0):
             "image":s_q.image,
             "subreddit":s_q.title,
             "image_description":s_q.image_description,
+            "comment_count":s_q.comment_count,
             "video":s_q.video,
             "video_description":s_q.video_description,
             "comments":comment_list
@@ -87,8 +88,8 @@ def suggestions_view(request):
                 "id":c_q.id,
                 "delete":can_delete
                 }]
-            url = ""
-            url1 = ""
+            url = "Error.src"
+            url1 = "Error.src"
             if not str(s_q.image)=="":
                 url=s_q.image.url
             if not str(s_q.video)=="":
@@ -104,6 +105,7 @@ def suggestions_view(request):
                 "downvote_count":s_q.downvoteCount(),
                 "subreddit":s_q.title,
                 "comments":comment_list,
+                "comment_count":s_q.comment_count,
                 "image":url,
                 "image_description":s_q.image_description, # These are what I use to call from index
                 "video":url1,
@@ -112,30 +114,30 @@ def suggestions_view(request):
         return JsonResponse(suggestion_list)
     return HttpResponse("Unsupported HTTP Method")
 
-@login_required(login_url='/login/')
-def comments_view(request, instance_id, delete=0):
-    if delete==1:
-        print("Should delete the comment here")
-        instance = models.Comment.objects.get(id=instance_id)
-        if request.user == instance.author:
-            instance.delete()
-        return redirect("/")
-    if request.method == "POST":
-        if request.user.is_authenticated:
-            form_instance = forms.CommentForm(request.POST)
-            if form_instance.is_valid():
-                new_comm = form_instance.save(request=request, sugg_id=instance_id)
-                return redirect("/")
-        else:
-            form_instance = forms.CommentForm()
-    else:
-        form_instance = forms.CommentForm()
-    context = {
-        "title":"Comment Form",
-        "form":form_instance,
-        "sugg_id":instance_id
-    }
-    return render(request, "comment.html", context=context)
+# @login_required(login_url='/login/')
+# def comments_view(request, instance_id, delete=0):
+#     if delete==1:
+#         print("Should delete the comment here")
+#         instance = models.Comment.objects.get(id=instance_id)
+#         if request.user == instance.author:
+#             instance.delete()
+#         return redirect("/")
+#     if request.method == "POST":
+#         if request.user.is_authenticated:
+#             form_instance = forms.CommentForm(request.POST)
+#             if form_instance.is_valid():
+#                 new_comm = form_instance.save(request=request, sugg_id=instance_id)
+#                 return redirect("/")
+#         else:
+#             form_instance = forms.CommentForm()
+#     else:
+#         form_instance = forms.CommentForm()
+#     context = {
+#         "title":"Comment Form",
+#         "form":form_instance,
+#         "sugg_id":instance_id
+#     }
+#     return render(request, "comment.html", context=context)
 
 
 
@@ -246,6 +248,12 @@ def success(request, subreddit_title):
                     "id":c_q.id,
                     "delete":can_delete
                     }]
+            url = "Error.src"
+            url1 = "Error.src"
+            if not str(s_q.image)=="":
+                url=s_q.image.url
+            if not str(s_q.video)=="":
+                url1=s_q.video.url
             suggestion_list["suggestions"] += [{
                 "id":s_q.id,
                 "header":s_q.header,
@@ -254,10 +262,11 @@ def success(request, subreddit_title):
                 "published_on":s_q.whenpublished(),
                 "upvote_count":s_q.upvoteCount(),
                 "downvote_count":s_q.downvoteCount(),
-                "image":s_q.image,
+                "image":url,
                 "subreddit":s_q.title,
+                "comment_count":s_q.comment_count,
                 "image_description":s_q.image_description,
-                "video":s_q.video,
+                "video":url1,
                 "video_description":s_q.video_description,
                 "comments":comment_list
                 }]
@@ -269,6 +278,20 @@ def success(request, subreddit_title):
 
 
 def post_page(request, instance_id):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            form_instance = forms.CommentForm(request.POST)
+            if form_instance.is_valid():
+                new_comm = form_instance.save(request=request, sugg_id=instance_id)
+                sugg = models.Suggestion.objects.get(id=instance_id)
+                sugg.comment_count += 1
+                sugg.save()
+                return redirect("/post/" + str(instance_id) + "/")
+        else:
+            form_instance = forms.CommentForm()
+    else:
+        form_instance = forms.CommentForm()
+   
     sugg = models.Suggestion.objects.get(id=instance_id)
     sugg_list = {"suggestions":[]}
     comment_query = models.Comment.objects.filter(suggestion=sugg)
@@ -285,8 +308,8 @@ def post_page(request, instance_id):
             "id":c_q.id,
             "delete":can_delete
         }]
-    url = ""
-    url1 = ""
+    url = "Error.src"
+    url1 = "Error.src"
     if not str(sugg.image)=="":
         url=sugg.image.url
     if not str(sugg.video)=="":
@@ -301,6 +324,7 @@ def post_page(request, instance_id):
         "upvote_count":sugg.upvoteCount(),
         "downvote_count":sugg.downvoteCount(),
         "comments":comment_list,
+        "comment_count":sugg.comment_count,
         "subreddit":sugg.title,
         "image":url,
         "image_description":sugg.image_description, # These are what I use to call from index
@@ -309,8 +333,11 @@ def post_page(request, instance_id):
         }]
     context = {
         "sugg_list": sugg_list["suggestions"],
-        "comment_list":comment_list
+        "form":form_instance,
+        "comment_list":comment_list,
+        "sugg_id":instance_id
     }
+
     return render(request, "post.html", context=context)
 
 
