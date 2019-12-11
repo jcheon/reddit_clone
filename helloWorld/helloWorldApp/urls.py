@@ -24,6 +24,7 @@ urlpatterns = [
     path('getChatrooms/', views.created_chatrooms),
     path('createChat/', views.chatroom_form_view),
     path('chat/', views.chat, name='chat'), # added this
-    path('chat/<str:room_name>/', views.room, name='room')
+    path('chat/<str:room_name>/', views.room, name='room'),
+	path('profiles/<str:user_name>/', views.profiles)
 ]
 
