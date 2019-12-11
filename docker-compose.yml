@@ -15,9 +15,17 @@ services:
   web:
     build: .
     volumes:
-       - .:/code
-    ports:
-       - 8000:8000
+      - .:/code
+    expose:
+      - 8000
     command: python /code/helloWorld/manage.py runserver 0.0.0.0:8000
 
- 
+  nginx:
+    restart: always
+    build: ./nginx/
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+    links:
+      - web:web
