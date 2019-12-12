@@ -25,7 +25,7 @@ SECRET_KEY = '551%l6el(4xb1t+218#_$+(@oy0cx4g+3y9idr$2$ewex$1z!r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['35.209.114.196', 'localhost']
+ALLOWED_HOSTS = ['35.209.114.196', 'localhost','jcheon.dev','www.jcheon.dev']
 
 LOGIN_REDIRECT_URL = "/"
 
