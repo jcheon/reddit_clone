@@ -12,7 +12,6 @@ import json
 from . import models
 from . import forms
 
-
 # Create your views here.
 def index(request, page=0):
     if request.method == "POST":
@@ -231,47 +230,8 @@ def created_subreddits(request):
             
 
 def success(request, subreddit_title):
-    suggestion_query = models.Suggestion.objects.all().order_by('-created_on')
-    suggestion_list = {"suggestions":[]}
-    for s_q in suggestion_query:
-        if(s_q.title == subreddit_title):
-            comment_query = models.Comment.objects.filter(suggestion=s_q)
-            comment_list = []
-            for c_q in comment_query:
-                can_delete=False
-                if request.user == c_q.author:
-                    can_delete=True
-                comment_list += [{
-                    "comment":c_q.comment,
-                    "author":c_q.author.username,
-                    "created_on":c_q.created_on,
-                    "id":c_q.id,
-                    "delete":can_delete
-                    }]
-            url = "Error.src"
-            url1 = "Error.src"
-            if not str(s_q.image)=="":
-                url=s_q.image.url
-            if not str(s_q.video)=="":
-                url1=s_q.video.url
-            suggestion_list["suggestions"] += [{
-                "id":s_q.id,
-                "header":s_q.header,
-                "suggestion":s_q.suggestion,
-                "author":s_q.author.username,
-                "published_on":s_q.whenpublished(),
-                "upvote_count":s_q.upvoteCount(),
-                "downvote_count":s_q.downvoteCount(),
-                "image":url,
-                "subreddit":s_q.title,
-                "comment_count":s_q.comment_count,
-                "image_description":s_q.image_description,
-                "video":url1,
-                "video_description":s_q.video_description,
-                "comments":comment_list
-                }]
     context = {
-        "sugg_list":suggestion_list["suggestions"]
+        "subreddit":subreddit_title
     }
     return render(request, "subreddit.html", context=context)
 
@@ -292,49 +252,8 @@ def post_page(request, instance_id):
     else:
         form_instance = forms.CommentForm()
    
-    sugg = models.Suggestion.objects.get(id=instance_id)
-    sugg_list = {"suggestions":[]}
-    comment_query = models.Comment.objects.filter(suggestion=sugg)
-    comment_list = []
-    for c_q in comment_query:
-        can_delete=False
-        if request.user == c_q.author:
-            can_delete=True
-        comment_list += [{
-            "comment":c_q.comment,
-            "author":c_q.author.username,
-            "created_on":c_q.created_on,
-            "published_on":c_q.whenpublished(),
-            "id":c_q.id,
-            "delete":can_delete
-        }]
-    url = "Error.src"
-    url1 = "Error.src"
-    if not str(sugg.image)=="":
-        url=sugg.image.url
-    if not str(sugg.video)=="":
-        url1=sugg.video.url
-    sugg_list["suggestions"] += [{
-        "id":sugg.id,
-        "header":sugg.header,
-        "suggestion":sugg.suggestion,
-        "author":sugg.author.username,
-        "created_on":sugg.created_on,
-        "published_on":sugg.whenpublished(),
-        "upvote_count":sugg.upvoteCount(),
-        "downvote_count":sugg.downvoteCount(),
-        "comments":comment_list,
-        "comment_count":sugg.comment_count,
-        "subreddit":sugg.title,
-        "image":url,
-        "image_description":sugg.image_description, # These are what I use to call from index
-        "video":url1,
-        "video_description":sugg.video_description
-        }]
     context = {
-        "sugg_list": sugg_list["suggestions"],
         "form":form_instance,
-        "comment_list":comment_list,
         "sugg_id":instance_id
     }
 
@@ -414,7 +333,83 @@ def profiles(request, user_name):
     }
     return render(request, "profiles.html", context=context)
 
+def getSubPosts(request, subreddit_title):
+    if request.method == "GET":
+        suggestion_query = models.Suggestion.objects.all().order_by('-created_on')
+        suggestion_list = {"suggestions":[]}
+        for s_q in suggestion_query:
+            if(s_q.title == subreddit_title):
+                url = "Error.src"
+                url1 = "Error.src"
+                if not str(s_q.image)=="":
+                    url=s_q.image.url
+                if not str(s_q.video)=="":
+                    url1=s_q.video.url
+                suggestion_list["suggestions"] += [{
+                    "id":s_q.id,
+                    "header":s_q.header,
+                    "suggestion":s_q.suggestion,
+                    "author":s_q.author.username,
+                    "created_on":s_q.created_on,
+                    "published_on":s_q.whenpublished(),
+                    "upvote_count":s_q.upvoteCount(),
+                    "downvote_count":s_q.downvoteCount(),
+                    "subreddit":s_q.title,
+                    "comment_count":s_q.comment_count,
+                    "image":url,
+                    "image_description":s_q.image_description, # These are what I use to call from index
+                    "video":url1,
+                    "video_description":s_q.video_description
+                    }]
+        return JsonResponse(suggestion_list)
+    return HttpResponse("Unsupported HTTP Method")
 
 
+
+def getPost(request, instance_id):
+    if request.method == "GET":
+        suggestion_query = models.Suggestion.objects.all().order_by('-created_on')
+        suggestion_list = {"suggestions":[]}
+        for s_q in suggestion_query:
+            if(s_q.id == instance_id):
+                comment_query = models.Comment.objects.filter(suggestion=s_q)
+                comment_list = []
+                for c_q in comment_query:
+                    can_delete=False
+                    if request.user == c_q.author:
+                        can_delete=True
+                    comment_list += [{
+                    "comment":c_q.comment,
+                    "author":c_q.author.username,
+                    "created_on":c_q.created_on,
+                    "published_on":c_q.whenpublished(),
+                    "id":c_q.id,
+                    "delete":can_delete
+                    }]
+                url = "Error.src"
+                url1 = "Error.src"
+                if not str(s_q.image)=="":
+                    url=s_q.image.url
+                if not str(s_q.video)=="":
+                    url1=s_q.video.url
+                suggestion_list["suggestions"] += [{
+                    "id":s_q.id,
+                    "header":s_q.header,
+                    "suggestion":s_q.suggestion,
+                    "author":s_q.author.username,
+                    "created_on":s_q.created_on,
+                    "published_on":s_q.whenpublished(),
+                    "upvote_count":s_q.upvoteCount(),
+                    "downvote_count":s_q.downvoteCount(),
+                    "subreddit":s_q.title,
+                    "comments":comment_list,
+                    "comment_count":s_q.comment_count,
+                    "image":url,
+                    "image_description":s_q.image_description, # These are what I use to call from index
+                    "video":url1,
+                    "video_description":s_q.video_description
+                    }]
+        return JsonResponse(suggestion_list)
+    return HttpResponse("Unsupported HTTP Method")
 
 

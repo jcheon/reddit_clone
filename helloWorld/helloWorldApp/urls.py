@@ -16,11 +16,13 @@ urlpatterns = [
     path('downvote/<int:instance_id>/', views.downvote),
     path('post/<int:instance_id>/', views.post_page),
     path('post/<int:instance_id>/<int:delete>/', views.post_page),
+    path('getPost/<int:instance_id>/', views.getPost, name='instance_id'),
     path('register/', views.register),
     path('subreddits/', views.show_subreddits),
     path('create_subreddit/', views.create_subreddit),
     path('r/<str:subreddit_title>/', views.success, name='subreddit_title'),
     path('getSubreddit/', views.created_subreddits),
+    path('getSubPosts/<str:subreddit_title>/', views.getSubPosts, name='subreddit_title'),
     path('getChatrooms/', views.created_chatrooms),
     path('createChat/', views.chatroom_form_view),
     path('chat/', views.chat, name='chat'), # added this
