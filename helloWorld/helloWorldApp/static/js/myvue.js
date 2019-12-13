@@ -108,7 +108,60 @@ var app6 = new Vue({
   }
 })
 
-// var subreddit = document.getElementById("curSub").innerHTML.split("/")[1].split("<")[0];
+var app7 = new Vue({
+  el: '#app-7',
+  data: {
+    suggestions: []
+  },
+
+  created: function() {
+    this.fetchSubPostList();
+    this.timer = setInterval(this.fetchSubPostList, 1000);
+  },
+  methods: {
+    fetchSubPostList: function() {
+      // console.log(document.getElementById("curSub").innerHTML.split("/")[1].split("<")[0]);
+      // subreddit = document.getElementById("curSub").innerHTML.split("/")[1].split("<")[0];
+      axios
+        .get('/getSubPosts/' + document.getElementById("curSub").innerHTML.split("/")[1].split("<")[0] + '/')
+        .then(response => (this.suggestions = response.data.suggestions))
+          console.log(this.suggestions)
+      },
+    cancelAutoUpdate: function() { clearInterval(this.timer) }
+  },
+  beforeDestroy() {
+    cancelAutoUpdate();
+    clearInterval(this.timer)
+  }
+})
+
+var app8 = new Vue({
+  el: '#app-8',
+  data: {
+    suggestions: []
+  },
+
+  created: function() {
+    this.fetchPost();
+    this.timer = setInterval(this.fetchPost, 1000);
+  },
+  methods: {
+    fetchPost: function() {
+      axios
+        .get('/getPost/' + document.getElementById("curPost").innerHTML.split("/")[1].split("<")[0] + '/')
+        .then(response => (this.suggestions = response.data.suggestions))
+          console.log(this.suggestions)
+      },
+    cancelAutoUpdate: function() { clearInterval(this.timer) }
+  },
+  beforeDestroy() {
+    cancelAutoUpdate();
+    clearInterval(this.timer)
+  }
+})
+
+
+
 
 
 

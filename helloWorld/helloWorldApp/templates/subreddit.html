@@ -3,45 +3,63 @@
 {% block content %}
 
 
-<div style="float:right">
-    <a href="suggestion/" class="button">Create Post</a>
+
+ <a id= "curSub" href="/r/{{sugg.subreddit}}/" hidden><span class="website">r/{{subreddit}}</span> &#8226;</a> 
+
+
+<div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
+    <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
+        <div class="card-info info">
+            <div class="card-section">
+                <a href="suggestion/"><textarea rows="1" cols="50">Create post...</textarea></a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
     <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
-  	     {% for sugg in sugg_list %}
-		      <div class="card-info info">
-                    <div class="card-section">
+  	    <div id="app-7"> 
+                 <div v-for="sugg in suggestions" >
+		               <div class="card-info info">
+                            <div class="card-section">
                         
-                        <div class="article-details">
-                            <!-- <a onload = "getID()" id= "curSub" href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a> -->
-                            <a href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
-                            <span class="time">{{ sugg.published_on }}</span> &#8226;
-                            <a><span class="author">u/{{ sugg.author }}</span></a>
-                        </div>
+                            <div class="article-details">
+                                {% verbatim %}
+                                <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                                <span class="time">{{ sugg.published_on }}</span> &#8226;
+                                <a><span class="author">u/{{ sugg.author }}</span></a>
+                                {% endverbatim %}
+                            </div>
 
-                        <h3 class="article-title">{{ sugg.header }}</h3>
-                        <p class="article-summary">{{ sugg.suggestion }}</p>
-                        <img src={{sugg.image}} onerror="this.style.display='none'" width="750" height="100"></img>
+                            {% verbatim %}
 
-                   
-                        <video width="717" height="350" controls src="{{sugg.video}}" onerror="this.style.display='none'" type="video/mp4">
-                        </video>
+                                <h3 class="article-title">{{ sugg.header }}</h3>
+                                <p class="article-summary">{{ sugg.suggestion }}</p>
+                                <img v-bind:src="sugg.image" onerror="this.style.display='none'" width="750" height="100"></img>
+                                <video width="717" height="350" controls v-bind:src="sugg.video" onerror="this.style.display='none'" type="video/mp4"></video>
 
-                        <div>
-                            <a href="/upvote/{{sugg.id}}/" class="button">Click to upvote!</a>
-                            <a href="/downvote/{{sugg.id}}/" class="button">Click to downvote!</a>
-                            <p> Likes: {{ sugg.upvote_count }} </p> 
-                            <p> Dislikes: {{ sugg.downvote_count }} </p> 
-                        </div>
+                            {% endverbatim %}
+
+                            <div>
+                                <a v-bind:href="'/upvote/'+ sugg.id+'/'" class="button">Click to upvote!</a>
+                                <a v-bind:href="'/downvote/'+ sugg.id+'/'" class="button">Click to downvote!</a>
+
+                                {% verbatim %}
+                                    <p> Likes: {{ sugg.upvote_count }} </p> 
+                                    <p> Dislikes: {{ sugg.downvote_count }} </p> 
+                                {% endverbatim %}
+                            </div>
                     
-                        <a href="/post/{{sugg.id}}/">Comments</a>
+                             {% verbatim %}
+                                <a v-bind:href="'/post/'+ sugg.id+'/'">Comments ({{sugg.comment_count}})</a>
+                             {% endverbatim %}
 
 
-
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
  </div>  
 
