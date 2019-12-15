@@ -2,33 +2,107 @@
 {% load static %}
 {% block content %}
 
-<div class="grid-x grid-margin-x">
-  <div class="small-8 cell">
-    <div class="medium-6 columns" style = "text-align: center;">
-      {% for p in posts %}
-      <div class = "card-flex-atricle card">
-        <div style="float: left">
-          <i class="material-icons">keyboard_arrow_up</i>
-          {{ p.upvote }}
-          <i class="material-icons">keyboard_arrow_down</i>
-        </div>
-        <div>
-          <p>r/{{p.title}} * Posted by u/{{name}} * {{p.created_on}} ago</p>
-          <p>{{p.header}}</p>
-          <p>{{p.suggestion}}</p>
-        </div>
+<a id= "curUser" href="/r/temp/" hidden><span class="website">r/{{user}}</span> &#8226;</a> 
+
+<div class="card-info secondary" style="width:300px; height:300px;">
+  <div class="card-section">
+    <div class="article-details" style="text-align: center;">
+        <img src = "https://usatftw.files.wordpress.com/2019/04/screen-shot-2019-04-23-at-11.17.38-pm.jpg?w=779&h=467&crop=1&zoom=2"> <!-- testin imag-->
+        <p>u/{{ name }}</p>
+        <p>Cake Day: {{ date }}</p> 
       </div>
-
-      {% endfor %} 
-    </div> 
-  </div>
-
-  <div class="small-4 cell" style = "text-align: center; border-style: solid;">
-      <img src = "https://usatftw.files.wordpress.com/2019/04/screen-shot-2019-04-23-at-11.17.38-pm.jpg?w=779&h=467&crop=1&zoom=2"> <!-- testin imag-->
-    <p>u/{{ name }}</p>
-    <p>Cake Day: {{ date }}</p> 
-  </div>
+    </div>
 </div>
+
+<div class="grid-x grid-margin-x">
+  <div class="grid-x grid-padding-x" style="width:900px; margin: 0 auto; vertical-align: middle;">
+    <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
+      <div id="app-9">
+          <span v-if="seen">
+              <div class="card-info info">
+                  <div class="card-section">
+                      {% for p in posts %}
+                        <div style="float: right; min-height:100px">
+                          <a href="/upvote/{{p.id}}/"><i class="material-icons">keyboard_arrow_up</i></a>
+                                    {{p.total_votes}}
+                          <a href="/downvote/{{p.id}}/"><i class="material-icons">keyboard_arrow_down</i></a>
+                        </div>
+
+                        <div class="top-bar" style="width:600px; background-color: white ">
+                          <div class="article-details" style="float:left;">
+                            <a href="/r/{{ p.subreddit }}/"><span class="website">r/{{ p.subreddit }}</span> &#8226;</a>
+                              <span class="time">{{ p.published_on }}</span> &#8226;
+                            <a href="/profiles/{{p.user}}/"><span class="author">u/{{ p.user }}</span></a>
+                          </div>
+                        </div>
+          
+
+                        <div>
+                          <h3 class="article-title">{{ p.header }}</h3>
+                          <p class="article-summary">{{ p.suggestion }}</p>
+                          <img src="{{p.image}}" onerror="this.style.display='none'" width="750"></img>
+                          <video width="717" height="350" controls src="{{p.video}}" onerror="this.style.display='none'" type="video/mp4"></video>
+                        </div>
+
+                        <a href="/post/{{p.id}}/">Comments ({{p.comment_count}})</a>   
+                      {% endfor %}      
+                 </div>
+              </div>
+      
+            </span> 
+
+            <span v-if="unseen">
+               <div v-for="sugg in suggestions">
+                  <div class="card-info info">
+                    <div class="card-section">
+                      
+                        {% verbatim %}
+                            <div style="float: right; min-height:100px">
+                                <a v-bind:href="'/upvote/'+ sugg.id+'/'"><i class="material-icons">keyboard_arrow_up</i></a>
+                                    {{sugg.total_votes}}
+                                <a v-bind:href="'/downvote/'+ sugg.id+'/'"><i class="material-icons">keyboard_arrow_down</i></a>
+                            </div>
+                        {% endverbatim %}
+
+                        <div class="top-bar" style="width:600px; background-color: white ">
+                          <div class="article-details">
+                                {% verbatim %}
+                                <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                                <span class="time">{{ sugg.published_on }}</span> &#8226;
+                                <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a>
+                                {% endverbatim %}
+                            </div>
+                        </div>
+          
+
+                        <div>
+                          {% verbatim %}  
+                              <h3 class="article-title">{{ sugg.header }}</h3>
+                              <p class="article-summary">{{ sugg.suggestion }}</p>
+                              <img v-bind:src="sugg.image" onerror="this.style.display='none'" width="750" height="100"></img>
+                              <video width="717" height="350" controls v-bind:src="sugg.video" onerror="this.style.display='none'" type="video/mp4"></video>
+
+                            {% endverbatim %}
+                        </div>
+
+                        {% verbatim %}
+                            <a v-bind:href="'/post/'+ sugg.id+'/'">Comments ({{sugg.comment_count}})</a>
+                        {% endverbatim %}       
+                
+                    </div>
+            
+
+
+                </div>
+              </div>
+            </span>
+          </div>
+        </div> 
+    </div>
+</div>
+
+
+
 
 
 {% endblock %}

@@ -12,7 +12,6 @@ var app2 = new Vue({
   }
 })
 
-
 var app3 = new Vue({
   el: '#app-3',
   data: {
@@ -33,7 +32,7 @@ var app4 = new Vue({
         this.timer = setInterval(this.fetchSuggestionList, 1000);
   },
   methods: {
-    fetchSuggestionList: function(arg) {
+    fetchSuggestionList: function() {
         axios
           .get('/suggestions/')
           .then(response => (this.suggestions = response.data.suggestions))
@@ -60,16 +59,16 @@ var app5 = new Vue({
 
   created: function() {
     this.fetchSubredditList();
-    this.timer = setInterval(this.fetchSubredditList, 1000);
+    this.timer = setInterval(this.fetchSubredditList, 10000);
   },
   methods: {
     fetchSubredditList: function() {
       axios
         .get('/getSubreddit')
         .then(response => (this.subreddits = response.data.subreddits))
-          console.log(this.subreddits)
-        this.seen=false
-        this.unseen=true
+      console.log(this.subreddits)
+      this.seen=false
+      this.unseen=true
       },
     cancelAutoUpdate: function() { clearInterval(this.timer) }
   },
@@ -89,16 +88,16 @@ var app6 = new Vue({
 
   created: function() {
     this.fetchChatroomList();
-    this.timer = setInterval(this.fetchChatroomList, 1000);
+    this.timer = setInterval(this.fetchChatroomList, 10000);
   },
   methods: {
     fetchChatroomList: function() {
       axios
         .get('/getChatrooms/')
         .then(response => (this.chatrooms = response.data.chatrooms))
-          console.log(this.chatrooms)
-        this.seen=false
-        this.unseen=true
+      console.log(this.chatrooms)
+      this.seen=false
+      this.unseen=true
       },
     cancelAutoUpdate: function() { clearInterval(this.timer) }
   },
@@ -111,7 +110,9 @@ var app6 = new Vue({
 var app7 = new Vue({
   el: '#app-7',
   data: {
-    suggestions: []
+    suggestions: [],
+    seen:true,
+    unseen:false
   },
 
   created: function() {
@@ -125,7 +126,9 @@ var app7 = new Vue({
       axios
         .get('/getSubPosts/' + document.getElementById("curSub").innerHTML.split("/")[1].split("<")[0] + '/')
         .then(response => (this.suggestions = response.data.suggestions))
-          console.log(this.suggestions)
+      console.log(this.suggestions)
+      this.seen=false
+      this.unseen=true
       },
     cancelAutoUpdate: function() { clearInterval(this.timer) }
   },
@@ -138,7 +141,9 @@ var app7 = new Vue({
 var app8 = new Vue({
   el: '#app-8',
   data: {
-    suggestions: []
+    suggestions: [],
+    seen:true,
+    unseen:false
   },
 
   created: function() {
@@ -150,7 +155,9 @@ var app8 = new Vue({
       axios
         .get('/getPost/' + document.getElementById("curPost").innerHTML.split("/")[1].split("<")[0] + '/')
         .then(response => (this.suggestions = response.data.suggestions))
-          console.log(this.suggestions)
+      console.log(this.suggestions)
+      this.seen=false
+      this.unseen=true
       },
     cancelAutoUpdate: function() { clearInterval(this.timer) }
   },
@@ -160,6 +167,34 @@ var app8 = new Vue({
   }
 })
 
+var app9 = new Vue({
+  el: '#app-9',
+  data: {
+    suggestions: [],
+    seen:true,
+    unseen:false
+  },
+
+  created: function() {
+    this.fetchUserPosts();
+    this.timer = setInterval(this.fetchUserPosts, 1000);
+  },
+  methods: {
+    fetchUserPosts: function() {
+      axios
+        .get('/getUserPosts/' + document.getElementById("curUser").innerHTML.split("/")[1].split("<")[0] + '/')
+        .then(response => (this.suggestions = response.data.suggestions))
+      console.log(this.suggestions)
+      this.seen=false
+      this.unseen=true
+      },
+    cancelAutoUpdate: function() { clearInterval(this.timer) }
+  },
+  beforeDestroy() {
+    cancelAutoUpdate();
+    clearInterval(this.timer)
+  }
+})
 
 
 

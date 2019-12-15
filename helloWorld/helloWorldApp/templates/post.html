@@ -2,81 +2,99 @@
 {% load static %}
 {% block content %}
 
-
 <a id= "curPost" hidden><span class="website" hidden>r/{{sugg_id}}</span> &#8226;</a>
 
 <div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
     <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
 	    <div id="app-8"> 
-            <div v-for="sugg in suggestions" >
+             <span v-if="seen">
                 <div class="card-info info">
-                    <div class="card-section">
-                
-				    <div class="article-details">
-                                {% verbatim %}
-                                <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
-                                <span class="time">{{ sugg.published_on }}</span> &#8226;
-                                <a><span class="author">u/{{ sugg.author }}</span></a>
-                                {% endverbatim %}
+                    <div class="card-section"> 
+                        {% for sugg in sugg_list %}
+
+
+                            <div style="float: right; min-height:100px">
+                                <a href="/upvote/{{sugg.id}}/"><i class="material-icons">keyboard_arrow_up</i></a>
+                                    {{sugg.total_votes}}
+                                <a href="/downvote/{{sugg.id}}/"><i class="material-icons">keyboard_arrow_down</i></a>
+                            </div>
+                         
+
+                            <div class="article-details">
+                          
+                            <a href="/r/{{sugg.subreddit}}/"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                            <span class="time">{{ sugg.published_on }}</span> &#8226;
+                            <a href="/profiles/{{sugg.author}}/"><span class="author">u/{{ sugg.author }}</span></a>
+                           
                             </div>
 
-                            {% verbatim %}
+                      
 
-                                <h3 class="article-title">{{ sugg.header }}</h3>
-                                <p class="article-summary">{{ sugg.suggestion }}</p>
-                                <img v-bind:src="sugg.image" onerror="this.style.display='none'" width="750" height="100"></img>
-                                <video width="717" height="350" controls v-bind:src="sugg.video" onerror="this.style.display='none'" type="video/mp4"></video>
+                            <h3 class="article-title">{{ sugg.header }}</h3>
+                            <p class="article-summary">{{ sugg.suggestion }}</p>
+                            <img src="{{sugg.image}}" onerror="this.style.display='none'" width="750" height="100"></img>
+                            <video width="717" height="350" controls src="{{sugg.vide}}o" onerror="this.style.display='none'" type="video/mp4"></video>
 
-                            {% endverbatim %}
+                   
 
-                            <div>
-                                <a v-bind:href="'/upvote/'+ sugg.id+'/'" class="button">Click to upvote!</a>
-                                <a v-bind:href="'/downvote/'+ sugg.id+'/'" class="button">Click to downvote!</a>
-
-                                {% verbatim %}
-                                    <p> Likes: {{ sugg.upvote_count }} </p> 
-                                    <p> Dislikes: {{ sugg.downvote_count }} </p> 
-                                {% endverbatim %}
-                            </div>
-                
-
-                    <form action="/post/{{sugg_id}}/" method="post">
-                        {% csrf_token %}
-                        {{ form }}
-                        <input type="submit" class="button expanded" value="Add Comment" />
-                    </form>
-
-                    <!-- {% for comm in comment_list %}
-                    <div class="comment-section-author">
-  
-                        <div class="comment-section-author">
-                            <img src="https://placehold.it/50x50" alt="">
-                            <div class="comment-section-name">
-                                <h5><a href="">Janice Jones</a></h5>
-                                <p>March 12, 2017 at 1:28pm</p>
-                            </div>
-                            </div>
-                            <div class="comment-section-text">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum facilis tenetur a voluptatibus quia deserunt.</p>
-                            </div>
-                    </div>
-
-                     {% endfor %} -->
-
-     				   <div v-for="comm in sugg.comments">
-
-                            {% verbatim %}
-     				           <div class="article-details">
-               			          <a><span class="author">{{ comm.author }}</span></a> &#8226;
-                                  <span class="time"> {{ comm.published_on }}</span> 
-                                </div>
-                                <h3 class="lead">{{ comm.comment }}</h3>
-                            {% endverbatim %}
-                            
+                            {% endfor %}
                         </div>
                     </div>
-                </div>  
-            </div>
+                </span>
+
+                <span v-if="unseen">
+                    <div v-for="sugg in suggestions" >
+                        <div class="card-info info">
+                            <div class="card-section">
+
+                                {% verbatim %}
+                                <div style="float: right; min-height:100px">
+                                    <a v-bind:href="'/upvote/'+ sugg.id+'/'"><i class="material-icons">keyboard_arrow_up</i></a>
+                                        {{sugg.total_votes}}
+                                    <a v-bind:href="'/downvote/'+ sugg.id+'/'"><i class="material-icons">keyboard_arrow_down</i></a>
+                                </div>
+                                {% endverbatim %}
+                
+				                <div class="article-details">
+                                    {% verbatim %}
+                                    <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                                    <span class="time">{{ sugg.published_on }}</span> &#8226;
+                                    <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a>
+                                    {% endverbatim %}
+                                </div>
+
+                                {% verbatim %}
+
+                                    <h3 class="article-title">{{ sugg.header }}</h3>
+                                    <p class="article-summary">{{ sugg.suggestion }}</p>
+                                    <img v-bind:src="sugg.image" onerror="this.style.display='none'" width="750" height="100"></img>
+                                    <video width="717" height="350" controls v-bind:src="sugg.video" onerror="this.style.display='none'" type="video/mp4"></video>
+
+                                {% endverbatim %}
+
+        
+
+                                <form action="/post/{{sugg_id}}/" method="post">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                    <input type="submit" class="button expanded" value="Add Comment" />
+                                </form>
+
+     				           <div v-for="comm in sugg.comments">
+
+                                {% verbatim %}
+     				               <div class="article-details">
+               			           <a v-bind:href="'/profiles/'+ comm.author+'/'"><span class="author">r/{{ comm.author }}</span></a> &#8226;
+                                    <span class="time"> {{ comm.published_on }}</span> 
+                                    </div>
+                                    <h3 class="lead">{{ comm.comment }}</h3>
+                                {% endverbatim %}
+                            
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </span>
         </div>
     </div>
 </div>
