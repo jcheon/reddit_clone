@@ -32,6 +32,9 @@ class Suggestion(models.Model):
     def downvoteCount(self):
         return self.downvote
 
+    def totalVotes(self):
+        return (self.upvote + self.downvote)
+
     def whenpublished(self):
         now = timezone.now()
 
@@ -183,4 +186,12 @@ class chatroom(models.Model):
 
     def __str__(self):
         return self.name
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     bio = models.TextField(max_length=500, blank=True)
+#     birth_date = models.DateField(null=True, blank=True)
+#     karma = models.IntegerField(default=100)
+#     avatar = models.ImageField(max_length=144, upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
+
 
