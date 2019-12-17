@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.utils.safestring import mark_safe
+from django.db import transaction
 import json
 # from django.contrib.auth.models import User
 
@@ -397,6 +398,10 @@ def profiles(request, user_name):
     context = {
         "name": name,
         "date": date,
+        "karma": request.user.profile.karma,
+        "bio": request.user.profile.bio,
+        "birthday": request.user.profile.birth_date,
+        "avatar": request.user.profile.avatar,
         "posts": post_list["posts"]
     }
     return render(request, "profiles.html", context=context)
@@ -531,3 +536,15 @@ def getUserPosts(request, user_name):
     return HttpResponse("Unsupported HTTP Method")
 
 
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        profile_form = forms.ProfileForm(request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('/profiles/' + request.user.username + '/')
+    else:
+        profile_form = forms.ProfileForm(instance=request.user.profile)
+    return render(request, 'registration/updateProfile.html', {
+        'profile_form': profile_form
+    })

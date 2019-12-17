@@ -28,6 +28,7 @@ urlpatterns = [
     path('chat/', views.chat, name='chat'), # added this
     path('chat/<str:room_name>/', views.room, name='room'),
 	path('profiles/<str:user_name>/', views.profiles, name='user_name'),
+    path('updateProfile/', views.update_profile),
     path('getUserPosts/<str:user_name>/', views.getUserPosts, name='user_name')
 ]
 

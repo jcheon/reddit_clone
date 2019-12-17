@@ -79,7 +79,7 @@
          <ul class="dropdown menu" data-dropdown-menu>
             <li> <a>{{ request.user.username }}</a>
                  <ul class="menu">
-                 <li> <a> My Profile </a></li>
+                 <li> <a href="/profiles/{{request.user.username}}/"> My Profile </a></li>
                  <li> <a href='/logout/'>Logout</a></li>
 
                  </ul>
@@ -89,8 +89,8 @@
             {% endif %}
 
               {% if user.is_anonymous %}
-              <li><a href='/login/' class='button'>Login</a></li>
-              <li><a href='/register/' class='button'>Register</a></li>
+              <li><a href='/login/' >Login</a></li>
+              <li><a href='/register/'>Register</a></li>
              {% endif %}
 
         </ul>

@@ -4,18 +4,26 @@
 
 <a id= "curUser" href="/r/temp/" hidden><span class="website">r/{{user}}</span> &#8226;</a> 
 
+<div class="outer-wrapper">
+  <div style="float: right"> 
+
 <div class="card-info secondary" style="width:300px; height:300px;">
   <div class="card-section">
     <div class="article-details" style="text-align: center;">
-        <img src = "https://usatftw.files.wordpress.com/2019/04/screen-shot-2019-04-23-at-11.17.38-pm.jpg?w=779&h=467&crop=1&zoom=2"> <!-- testin imag-->
-        <p>u/{{ name }}</p>
-        <p>Cake Day: {{ date }}</p> 
+        <img src="/media/{{avatar}}" style="width:150px; height:150px; border-radius: 50%;"></img> <!-- testin imag-->
+      
+          <p>u/{{ name }} <br />
+              Karma: {{ karma }} <br />
+              Birthday: {{ birthday }} <br /></p> 
+            
+        <a href="/updateProfile/"> Update Profile </a>
       </div>
     </div>
 </div>
-
+</div>
+<div>
 <div class="grid-x grid-margin-x">
-  <div class="grid-x grid-padding-x" style="width:900px; margin: 0 auto; vertical-align: middle;">
+  <div class="grid-x grid-padding-x" style="width:900px; margin: 0 auto; vertical-align: middle; float:middle; margin-right: 0px;">
     <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
       <div id="app-9">
           <span v-if="seen">
@@ -99,6 +107,8 @@
           </div>
         </div> 
     </div>
+</div>
+</div>
 </div>
 
 
