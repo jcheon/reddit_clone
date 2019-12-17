@@ -199,3 +199,7 @@
           transform: rotate(30deg);
 }
 
+/* Dark Mode */
+.dark {
+  background-color: #373640;
+}
