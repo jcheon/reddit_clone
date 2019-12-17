@@ -203,3 +203,20 @@
 .dark {
   background-color: #373640;
 }
+
+.dark .card-section {
+  background-color: #373640;
+  color: white;  
+}
+
+.dark a {
+  color: #84d5f8;
+}
+
+.dark h1 {
+  color: white;
+}
+
+.dark .dropdown .menu ul {
+  background-color: #373640;
+}

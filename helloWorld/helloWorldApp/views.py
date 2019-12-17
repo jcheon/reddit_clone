@@ -78,7 +78,7 @@ def index(request, page=0):
 
 
 @csrf_exempt
-@login_required(login_url='/login/')
+# @login_required(login_url='/login/')
 def suggestions_view(request):
     if request.method == "GET":
         suggestion_query = models.Suggestion.objects.all().order_by('-created_on')
