@@ -7,6 +7,7 @@
 <html class="no-js" lang="en" dir="ltr">
   
   <head>
+
     
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -23,7 +24,8 @@
 
 	{% block css %}
 	{% endblock %}
- 
+
+<body>
  </head>
     <div class="top-bar">
     <div class="top-bar-left">
@@ -89,13 +91,14 @@
             {% endif %}
 
               {% if user.is_anonymous %}
-              <li><a href='/login/' >Login</a></li>
+              <li><a class="button" href='/login/'>Login</a></li>
               <li><a href='/register/'>Register</a></li>
              {% endif %}
 
         </ul>
     </div>
 </div>
+</body>
 
  	{% block content %}
  	{% endblock %}
@@ -105,6 +108,8 @@
     <script src="{%static "js/vendor/foundation.js" %}"></script>
     <script src="{%static "js/app.js" %}"></script>
     <script src="{%static "js/script.js" %}"></script>
+
+
     
     {% block scripts %}
 	{% endblock %}

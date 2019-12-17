@@ -3358,7 +3358,8 @@ select {
   -webkit-flex: 1 0 auto;
       -ms-flex: 1 0 auto;
           flex: 1 0 auto;
-  padding: 1rem; }
+  padding: 1rem;}
+  background-color:
   .card-section > :last-child {
     margin-bottom: 0; }
 
