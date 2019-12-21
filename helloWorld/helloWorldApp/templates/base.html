@@ -25,29 +25,36 @@
 	{% endblock %}
  
  </head>
+
     <div class="top-bar">
     <div class="top-bar-left">
         <ul class="dropdown menu" data dropdown menu>
-            <li> <a href='/'> Reddit</a> </li>
-                <ul class="dropdown menu" data-dropdown-menu>
-                    
-                    <li> <a>Subreddits</a>
-                        <ul class="menu">
-                            <div id="app-5"> 
-                                <div v-for="subreddit in subreddits">
-                                    {% verbatim %}
-                                        <li><a v-bind:href="'/r/'+ subreddit.title+'/'"> r/{{ subreddit.title }} </a></li>
-                                    {% endverbatim %}
-                                </div>
-                            </div>
-        
-                        </ul>
-                    </li>
+             {% if user.is_authenticated %}
+                <li> <a href='/'> Reddit</a> </li>
+             {% endif %}
 
-                </ul>
-                        
-            <li> <a href="/create_subreddit/"> Create Subreddit </a></li>
-                   
+
+                <ul class="dropdown menu" data-dropdown-menu>
+                    {% if user.is_authenticated %}
+                        <li> <a>Subreddits</a>
+                            <ul class="menu">
+                                <div id="app-5"> 
+                                    <div v-for="subreddit in subreddits">
+                                        {% verbatim %}
+                                            <li><a v-bind:href="'/r/'+ subreddit.title+'/'"> r/{{ subreddit.title }} </a></li>
+                                        {% endverbatim %}
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+                    </ul>
+                {% endif %}
+                
+                {% if user.is_authenticated %} 
+                    <li> <a href="/create_subreddit/"> Create Subreddit </a></li>
+                {% endif %}
+               
+                {% if user.is_authenticated %}     
                     <ul class="dropdown menu" data-dropdown-menu>
                         <li> <a>Chatrooms</a>
                             <ul class="menu">
@@ -62,13 +69,19 @@
                             </ul>
                         </li>
                      </ul>
+                {% endif %}
 
-            <li> <a href="/createChat/"> Create Chatroom </a></li>
-            <li style="padding-left: 20%;">
-                <a href="#" onclick="localStorage.setItem('mode', (localStorage.getItem('mode') || 'dark') === 'dark' ? 'light' : 'dark'); 
-                localStorage.getItem('mode') === 'dark' ? document.querySelector('body').classList.add('dark') : document.querySelector('body').classList.remove('dark')" title="Dark/light">
-                DarkMode (beta)</a>
-            </li>
+             {% if user.is_authenticated %}
+                <li> <a href="/createChat/"> Create Chatroom </a></li>
+             {% endif %}
+            
+            {% if user.is_authenticated %}
+                <li style="padding-left: 20%;">
+                    <a href="#" onclick="localStorage.setItem('mode', (localStorage.getItem('mode') || 'dark') === 'dark' ? 'light' : 'dark'); 
+                    localStorage.getItem('mode') === 'dark' ? document.querySelector('body').classList.add('dark') : document.querySelector('body').classList.remove('dark')" title="Dark/light">
+                    DarkMode</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 
