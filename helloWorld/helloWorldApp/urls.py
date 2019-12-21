@@ -8,8 +8,6 @@ urlpatterns = [
     path('', views.index),
     path('suggestions/', views.suggestions_view),
     path('r/<str:subreddit_title>/suggestion/', views.suggestion_form_view, name='subreddit_title'),
-    # path('comment/<int:instance_id>/', views.comments_view),
-    # path('comment/<int:instance_id>/<int:delete>/', views.comments_view),
     path('login/', auth_views.LoginView.as_view()),
     path('logout/', views.logout_view),
     path('upvote/<int:instance_id>/', views.upvote),
@@ -29,6 +27,7 @@ urlpatterns = [
     path('chat/<str:room_name>/', views.room, name='room'),
 	path('profiles/<str:user_name>/', views.profiles, name='user_name'),
     path('updateProfile/', views.update_profile),
+    path('giveKarma/<str:user_name>/<int:post_id>/', views.giveKarma, name='user_name'),
     path('getUserPosts/<str:user_name>/', views.getUserPosts, name='user_name')
 ]
 

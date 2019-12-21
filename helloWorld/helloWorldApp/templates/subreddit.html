@@ -75,10 +75,11 @@
                         
                             <div class="article-details">
                                 {% verbatim %}
-                                <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                                <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span></a> &#8226;
                                 <span class="time">{{ sugg.published_on }}</span> &#8226;
-                                <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a>
+                                <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a> 
                                 {% endverbatim %}
+                               
                             </div>
 
                             {% verbatim %}

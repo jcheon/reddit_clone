@@ -5,6 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.db import transaction
 import json
@@ -70,6 +71,7 @@ def index(request, page=0):
     context = {
         "variable":"Hello World",
         "title":"reddit: the front page of the internet",
+         "karma":request.user.profile.karma,
         "form":form_instance,
         "sugg_list":suggestion_list["suggestions"]
     }
@@ -251,6 +253,7 @@ def success(request, subreddit_title):
                     }]
     context = {
         "sugg_list":suggestion_list["suggestions"],
+        "karma":request.user.profile.karma,
         "subreddit":subreddit_title
     }
     return render(request, "subreddit.html", context=context)
@@ -258,6 +261,7 @@ def success(request, subreddit_title):
 
 
 def post_page(request, instance_id):
+    author = ""
     if request.method == "POST":
         if request.user.is_authenticated:
             form_instance = forms.CommentForm(request.POST)
@@ -292,6 +296,7 @@ def post_page(request, instance_id):
                 url=s_q.image.url
             if not str(s_q.video)=="":
                 url1=s_q.video.url
+            author = s_q.author.username
             suggestion_list["suggestions"] += [{
                     "id":s_q.id,
                     "header":s_q.header,
@@ -310,9 +315,14 @@ def post_page(request, instance_id):
                     "video":url1,
                     "video_description":s_q.video_description
                     }]
+    aUser = User.objects.get(username = author)
     context = {
         "form":form_instance,
+        "user":author,
+        "request_user":request.user.username,
         "sugg_list":suggestion_list["suggestions"],
+        "karma":aUser.profile.karma,
+        "request_karma":request.user.profile.karma,
         "sugg_id":instance_id
     }
 
@@ -358,12 +368,7 @@ def created_chatrooms(request):
     return HttpResponse("Unsupported HTTP method")
 
 def profiles(request, user_name):
-    name = None
-    date = None
-    member_of = None
-    posts = None
-
-    name = request.user.get_username()
+    name = ""
     date = request.user.date_joined
 
     user_post_query = models.Suggestion.objects.all().order_by('-created_on')
@@ -377,6 +382,7 @@ def profiles(request, user_name):
                 url=p.image.url
             if not str(p.video)=="":
                 url1=p.video.url
+            name = p.author
             post_list["posts"] += [{
                 "id":p.id,
                 "header":p.header,
@@ -395,13 +401,20 @@ def profiles(request, user_name):
                 "video":url1,
                 "video_description":p.video_description
                 }]
+    aUser = User.objects.get(username = name)
+    if aUser.profile.avatar == "":
+        anAvatar = '/static/images/default.png'
+    else:
+        anAvatar = aUser.profile.avatar
+    
     context = {
-        "name": name,
+        "name": user_name,
+        "request_name": request.user.username,
         "date": date,
-        "karma": request.user.profile.karma,
-        "bio": request.user.profile.bio,
-        "birthday": request.user.profile.birth_date,
-        "avatar": request.user.profile.avatar,
+        "karma": aUser.profile.karma,
+        "bio": aUser.profile.bio,
+        "birthday": aUser.profile.birth_date,
+        "avatar": anAvatar,
         "posts": post_list["posts"]
     }
     return render(request, "profiles.html", context=context)
@@ -539,7 +552,7 @@ def getUserPosts(request, user_name):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        profile_form = forms.ProfileForm(request.POST, instance=request.user.profile)
+        profile_form = forms.ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if profile_form.is_valid():
             profile_form.save()
             return redirect('/profiles/' + request.user.username + '/')
@@ -548,3 +561,29 @@ def update_profile(request):
     return render(request, 'registration/updateProfile.html', {
         'profile_form': profile_form
     })
+
+
+def giveKarma(request, user_name, post_id):
+    aUser = User.objects.get(username = user_name)
+
+    if request.method == 'GET':
+        karma = request.GET.get('karma')
+        if int(request.user.profile.karma) > 0:
+            if int(karma) <= int(request.user.profile.karma):
+                aUser.profile.karma = int(karma) + aUser.profile.karma
+                aUser.save()
+
+                total = request.user.profile.karma - int(karma)
+
+                request.user.profile.karma = total
+                request.user.save()
+            elif int(karma) > int(request.user.profile.karma):
+                userTotal = request.user.profile.karma +  aUser.profile.karma
+                aUser.profile.karma = userTotal
+                aUser.save()
+                request.user.profile.karma = 0
+                request.user.save()
+
+
+    return redirect("/post/" + str(post_id) + "/")
+

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<br>
+<br>
+
+<div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
+<div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
+<div class="card-info info">
+    <div class="card-section">
+
+    <div class="article-details">
+    <h3 class="text-center">Karma gifted to {{user}}:</h3> 
+    	<br>
+		<form action="/giveKarma/{{user}}/">
+            <input type="text" name="karma">
+            <input type="Submit" name="Submit">
+        </form>
+    </div>
+	</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static "js/myvue.js" %}"></script>
+{% endblock %}
