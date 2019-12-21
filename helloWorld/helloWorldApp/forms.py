@@ -152,4 +152,10 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('bio', 'birth_date', 'avatar')
+        fields = ('birth_date', 'avatar')
+
+
+
+
+
+

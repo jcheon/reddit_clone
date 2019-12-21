@@ -4,9 +4,37 @@
 
 <a id= "curPost" hidden><span class="website" hidden>r/{{sugg_id}}</span> &#8226;</a>
 
-<div class="grid-x grid-padding-x" style="width:1000px; margin: 0 auto; vertical-align: middle;">
+
+<div class="outer-wrapper">
+  <div style="float: right"> 
+
+
+<div class="card-info info" style="width:300px; height:250px;">
+  <div class="card-section">
+    <div class="article-details" style="text-align: center;">
+
+    <div class="article-details">
+    <h5 class="text-center">Would you like to gift <img src="/static/images/gold.png/" style='height:20px; width:20px;'></img> to {{ user }}? </h5> 
+    <p> You have {{ request_karma }} <img src="/static/images/gold.png/" style='height:20px; width:20px;'></img> to give. </p>
+        <br>
+        <form action="/giveKarma/{{user}}/{{sugg_id}}/">
+            <input type="text" name="karma" style="width:270px; height:20px;">
+            {% if request_user != user %}
+            <input type="Submit" name="Submit">
+            {% endif %}
+        </form>
+   </div>
+ </div>
+</div>
+</div>
+
+
+
+</div>
+<div>
+<div class="grid-x grid-padding-x" style="width:900px; margin: 0 auto; vertical-align: middle; float:middle; margin-right: 0px;">
     <div class="large-10 medium-10 small-12 large-offset-1 medium-offset-1 cell">
-	    <div id="app-8"> 
+            <div id="app-8"> 
              <span v-if="seen">
                 <div class="card-info info">
                     <div class="card-section"> 
@@ -33,7 +61,7 @@
                             <h3 class="article-title">{{ sugg.header }}</h3>
                             <p class="article-summary">{{ sugg.suggestion }}</p>
                             <img src="{{sugg.image}}" onerror="this.style.display='none'" width="750" height="100"></img>
-                            <video width="717" height="350" controls src="{{sugg.vide}}o" onerror="this.style.display='none'" type="video/mp4"></video>
+                            <video width="717" height="350" controls src="{{sugg.vide}}" onerror="this.style.display='none'" type="video/mp4"></video>
 
                    
 
@@ -59,8 +87,10 @@
                                     {% verbatim %}
                                     <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
                                     <span class="time">{{ sugg.published_on }}</span> &#8226;
-                                    <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a> 
+                                    <a v-bind:href="'/profiles/'+ sugg.author +'/'"><span class="author">u/{{ sugg.author }}</span></a> &#8226;
                                     {% endverbatim %}
+                                    <span class="time"><img src='/static/images/gold.png' style='height:20px; width:20px;'> {{ karma }} </span> 
+
                                 </div>
 
                                 {% verbatim %}
@@ -97,6 +127,8 @@
             </span>
         </div>
     </div>
+</div>
+</div>
 </div>
 
 

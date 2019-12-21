@@ -7,7 +7,7 @@
 <div style="text-align: center;">
   <h1>Profile</h1>
 </div>
-<a id= "curUser" href="/r/temp/" hidden><span class="website">r/{{user}}</span> &#8226;</a> 
+<a id= "curUser" href="/r/temp/" hidden><span class="website">r/{{name}}</span> &#8226;</a> 
 
 <div class="outer-wrapper">
   <div style="float: right"> 
@@ -15,13 +15,20 @@
 <div class="card-info secondary" style="width:300px; height:300px;">
   <div class="card-section">
     <div class="article-details" style="text-align: center;">
-        <img src="/media/{{avatar}}" style="width:150px; height:150px; border-radius: 50%;"></img> <!-- testin imag-->
-      
+
+        {% if avatar != '/static/images/default.png' %}
+          <img src="/media/{{avatar}}" style="width:150px; height:150px; border-radius: 50%;"></img> <!-- testin imag-->
+        {% else %}
+          <img src="{{avatar}}" style="width:150px; height:150px; border-radius: 50%;"></img> <!-- testin imag-->
+        {% endif %}
+
           <p>u/{{ name }} <br />
-              Karma: {{ karma }} <br />
-              Birthday: {{ birthday }} <br /></p> 
-            
-        <a href="/updateProfile/"> Update Profile </a>
+              <img src='/static/images/gold.png' style='height:20px; width:20px;'> {{ karma }} <br />
+              <img src='/static/images/birthday.png' style='height:25px; width:25px;'> {{ birthday }} <br /></p> 
+              {% if request_name == name %}
+                <a href="/updateProfile/"> Update Profile </a>
+              {% endif %}
+  
       </div>
     </div>
 </div>
@@ -80,10 +87,11 @@
                         <div class="top-bar" style="width:600px; background-color: white ">
                           <div class="article-details">
                                 {% verbatim %}
-                                <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
-                                <span class="time">{{ sugg.published_on }}</span> &#8226;
-                                <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a>
+                                  <a v-bind:href="'/r/'+ sugg.subreddit+'/'"><span class="website">r/{{ sugg.subreddit }}</span> &#8226;</a>
+                                  <span class="time">{{ sugg.published_on }}</span> &#8226;
+                                  <a v-bind:href="'/profiles/'+ sugg.author+'/'"><span class="author">u/{{ sugg.author }}</span></a>     
                                 {% endverbatim %}
+                                  
                             </div>
                         </div>
           

@@ -193,7 +193,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    karma = models.IntegerField(default=100)
+    karma = models.IntegerField(default=1000)
     avatar = models.ImageField(max_length=144, upload_to='uploads/%Y/%m/%d/', blank=True, null=True)
 
 @receiver(post_save, sender=User)
