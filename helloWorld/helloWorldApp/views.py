@@ -15,6 +15,7 @@ from . import models
 from . import forms
 
 # Create your views here.
+@login_required(login_url='/login/')
 def index(request, page=0):
     if request.method == "POST":
         if request.user.is_authenticated:
