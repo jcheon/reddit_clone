@@ -71,7 +71,7 @@ def index(request, page=0):
     context = {
         "variable":"Hello World",
         "title":"reddit: the front page of the internet",
-         "karma":request.user.profile.karma,
+        #"karma":request.user.profile.karma,
         "form":form_instance,
         "sugg_list":suggestion_list["suggestions"]
     }
