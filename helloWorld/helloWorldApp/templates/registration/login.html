@@ -4,8 +4,10 @@
 <div class="grid-x grid-padding-x">
   <!-- <div class="large-4 medium-4 small-12 cell"></div> -->
   <div class="large-4 medium-4 small-12 large-offset-4 medium-offset-4 cell">
+    <p style="text-align: center;">Please log into view content.</p>
     <h4 class="text-center">Login</h4>
     <form action="/login/" method="post">
+
         {% csrf_token %}
 
         {{ form.errors }}
@@ -17,13 +19,13 @@
 
         <input type="hidden" name="next" value="{{ request.GET.next }}" />
     </form>
+    
   </div>
 </div>
 
 {% endblock %}
 {% block scripts %}
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<!-- development version, includes helpful console warnings -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="{% static "js/myvue.js" %}"></script>
 {% endblock %}
