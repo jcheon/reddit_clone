@@ -217,6 +217,16 @@
   color: white;
 }
 
+
 .dark .dropdown .menu ul {
   background-color: #373640;
 }
+
+.dark h3 {
+  color: white;
+}
+
+.dark label {
+  color: white;
+}
+
